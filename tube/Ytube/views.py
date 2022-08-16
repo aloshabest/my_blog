@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse('Главная страница')
+    return render(request, 'Ytube/index.html')
 
 
 def group_posts(request):
