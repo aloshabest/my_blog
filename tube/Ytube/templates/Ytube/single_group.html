@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="mainbar">
+
+    <div class="article">
+
+        <h2><a href="#">{{ group.title }}</a></h2>
+        <div class="clr"></div>
+        <p>Last articles: <a href="#">Lorem Ipsum</a> </p>
+
+        {{ group.description }}
+    </div>
+
+
+    <div class="pagenavi"><span class="pages">Page 1 of 2</span><span class="current">1</span><a href="#">2</a><a
+            href="#">&raquo;</a></div>
+</div>
+{% endblock %}
