@@ -1,0 +1,29 @@
+{% load static %}
+<div class="header">
+    <div class="logo">
+        <h1><a href="#"><span>Social</span>Net<small>Simple web template</small></a></h1>
+    </div>
+    <div class="search">
+        <form method="get" id="search" action="#">
+            <span>
+            <input type="text" value="Search..." name="s" id="s"/>
+            <input name="searchsubmit" type="image" src="{% static 'images/search.gif' %}" value="Go" id="searchsubmit"
+                   class="btn"/>
+            </span>
+        </form>
+
+        <div class="clr"></div>
+    </div>
+    <div class="clr"></div>
+    <div class="menu_nav">
+        <ul>
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="support.html">Support</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+        <div class="clr"></div>
+    </div>
+    <div class="hbg"><img src="{% static 'images/header_images.jpg' %}" width="923" height="291" alt=""/></div>
+</div>
