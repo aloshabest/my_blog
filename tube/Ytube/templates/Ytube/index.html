@@ -3,14 +3,14 @@
 
 {% block content %}
 <div class="mainbar">
-    {% for post in posts %}
+    {% for p in posts %}
     <div class="article">
-        <h2><a href="{% url 'Ytube:single' %}">{{ post.title }}</a></h2>
+        <h2><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>
 
         <div class="clr"></div>
-        <p class="post-data"><span class="date">{{ post.created_at|date:"d.m.Y" }}</span> &nbsp;|&nbsp; Posted by <a href="#">{{ post.author }}</a>  &nbsp;|&nbsp; Group <a href="{% url 'Ytube:group' %}">{{ post.group }}</a>&nbsp;|&nbsp; Filed under <a href="#">templates</a>, <a href="#">internet</a></p>
+        <p class="post-data"><span class="date">{{ p.created_at|date:"d.m.Y" }}</span> &nbsp;|&nbsp; Posted by <a href="#">{{ p.author }}</a>  &nbsp;|&nbsp; Group <a href="{% url 'Ytube:group' %}">{{ p.group }}</a>&nbsp;|&nbsp; Filed under <a href="#">templates</a>, <a href="#">internet</a></p>
         <img src="{% static 'images/images_1.jpg' %}" width="613" height="193" alt=""/>
-        {{ post.content }}
+        {{ p.content }}
         <p class="spec"><a href="#" class="com fr">Comments (3)</a> <a href="#" class="rm fl">Read more</a></p>
         <div class="clr"></div>
     </div>

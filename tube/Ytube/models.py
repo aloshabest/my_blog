@@ -11,7 +11,7 @@ class Group(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('single', kwargs={"slug": self.slug})
+        return reverse('Ytube:post', kwargs={"post_slug": self.slug})
 
     class Meta:
         verbose_name = 'Группа'
@@ -34,7 +34,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post', kwargs={"slug": self.slug})
+        return reverse('Ytube:post', kwargs={'post_slug': self.slug})
 
     class Meta:
         ordering = ['-created_at']

@@ -9,7 +9,7 @@
 
     <div class="article">
 
-        <h2><a href="{% url 'Ytube:group' %}">{{ group.title }}</a></h2>
+        <h2><a href="{{ group.get_absolute_url }}">{{ group.title }}</a></h2>
         <div class="clr"></div>
         <p>Last articles: <a href="#">Lorem Ipsum</a> </p>
 

@@ -17,10 +17,22 @@ def index(request):
     return render(request, template, context)
 
 
+def show_post(request, post_slug):
+    template = 'Ytube/single.html'
+    post = get_object_or_404(Post, slug=post_slug)
+
+    context = {
+        'post': post,
+        'title': post.title,
+        'cat_selected': 1,
+    }
+    return render(request, template, context)
+
+
 def group(request):
     template = 'Ytube/group.html'
     title = 'Здесь будет информация о группах проекта Ytube'
-    groups = Group.objects.all()
+    groups = Group.objects.all()[:3]
     context = {
         'groups': groups,
         'title': title,
@@ -28,27 +40,15 @@ def group(request):
     return render(request, template, context)
 
 
-def group_posts(request, slug):
-    template = 'Ytube/single.html'
-    groups = get_object_or_404(Group, slug=slug)
-    posts = Post.objects.filter(group=group).order_by('-created_at')[:10]
+def group_posts(request, post_slug):
+    group = get_object_or_404(Group, slug=post_slug)
+    posts = Post.objects.filter(group=group).order_by('-created_at')[:3]
     context = {
-        'groups': groups,
+        'group': group,
         'posts': posts,
     }
-    return render(request, template, context)
+    return render(request, 'Ytube/index.html', context)
 
-
-def group_posts_1(request, slug):
-    template = 'Ytube/single.html'
-    title = 'Funny Blog'
-    posts = Post.objects.get(slug=slug)
-    context = {
-        'posts': posts,
-        'title': title,
-        'text': 'Главная страница',
-    }
-    return render(request, template, context)
 
 
 def about(request):
@@ -65,6 +65,11 @@ def contact(request):
 
 def support(request):
     return render(request, 'Ytube/support.html')
+
+
+
+
+
 
 
 
