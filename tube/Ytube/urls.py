@@ -8,9 +8,8 @@ urlpatterns = [
     path('blog/', blog),
     path('contact/', contact),
     path('support/', support),
-    path('group/', group_posts),
     path(
-        'group/<int:pk>/',
-        group_posts_detail
+        'blog/<int:pk>/',
+        blog_posts_detail
     ),
 ]
