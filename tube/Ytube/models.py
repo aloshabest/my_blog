@@ -11,7 +11,7 @@ class Group(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('Ytube:post', kwargs={"post_slug": self.slug})
+        return reverse('Ytube:groups', kwargs={"post_slug": self.slug})
 
     class Meta:
         verbose_name = 'Группа'
