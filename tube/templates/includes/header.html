@@ -1,7 +1,7 @@
 {% load static %}
 <div class="header">
     <div class="logo">
-        <h1><a href="#"><span>Social</span>Net<small>Funny Ytube blog</small></a></h1>
+        <h1><a href="{% url 'home' %}"><span>Social</span>Net<small>Funny Ytube blog</small></a></h1>
     </div>
     <div class="search">
         <form method="get" id="search" action="#">
@@ -17,11 +17,11 @@
     <div class="clr"></div>
     <div class="menu_nav">
         <ul>
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="support.html">Support</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
+            <li class="active"><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'support' %}">Support</a></li>
+            <li><a href="{% url 'about' %}">About Us</a></li>
+            <li><a href="{% url 'blog' %}">Blog</a></li>
+            <li><a href="{% url 'contact' %}">Contact Us</a></li>
         </ul>
         <div class="clr"></div>
     </div>
