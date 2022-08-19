@@ -10,14 +10,16 @@ def index(request):
     title = 'Funny Blog'
     posts = Post.objects.order_by('created_at')
     count = Post.objects.count()
-    random_object_1 = Post.objects.all()[randint(0, count - 1)]
-    random_object_2 = Post.objects.all()[randint(0, count - 1)]
-    random_object_3 = Post.objects.all()[randint(0, count - 1)]
+    random_lst = []
+    while len(random_lst) <= 2:
+        r = Post.objects.all()[randint(0, count - 1)]
+        if r not in random_lst:
+            random_lst.append(r)
+    another_posts = Post.objects.all()[:8]
     context = {
         'posts': posts,
-        'random_object_1': random_object_1,
-        'random_object_2': random_object_2,
-        'random_object_3': random_object_3,
+        'random_lst': random_lst,
+        'another_posts': another_posts,
         'title': title,
         'text': 'Главная страница',
     }
@@ -39,7 +41,7 @@ def show_post(request, post_slug):
 def group(request):
     template = 'Ytube/group.html'
     title = 'Здесь будет информация о группах проекта Ytube'
-    groups = Group.objects.all()[:3]
+    groups = Group.objects.all()[:1]
     context = {
         'groups': groups,
         'title': title,
@@ -47,14 +49,15 @@ def group(request):
     return render(request, template, context)
 
 
-def group_posts(request, slug):
-    group = get_object_or_404(Group, slug=slug)
-    posts = Post.objects.filter(group=group).order_by('-created_at')[:3]
+def show_groups(request, post_slug):
+    group = get_object_or_404(Group, slug=post_slug)
+    posts = Post.objects.filter(group=group).order_by('-created_at')[:7]
     context = {
         'group': group,
         'posts': posts,
+        'cat_selected': 1,
     }
-    return render(request, 'Ytube/index.html', context)
+    return render(request, 'Ytube/single_group.html', context)
 
 
 

@@ -10,9 +10,9 @@ app_name = 'Ytube'
 urlpatterns = [
     path('', index, name='home'),
     path('post/', single, name='single'),
-    path('post/<slug:slug>/', show_post, name='post'),
+    path('post/<slug:post_slug>/', show_post, name='post'),
     path('group/', group, name='group'),
-    path('group/<slug:slug>/', group_posts, name='groups'),
+    path('group/<slug:post_slug>/', show_groups, name='groups'),
     path('about/', about, name='about'),
     path('contact/', contact, name='contact'),
 
