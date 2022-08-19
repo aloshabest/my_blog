@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Post, Group
+from .models import Post, Group, Author
 from django.views.generic import ListView, DetailView
 from django.db.models import F
 from random import randint
@@ -62,7 +62,14 @@ def show_groups(request, post_slug):
 
 
 def author(request):
-    return render(request, 'Ytube/about.html')
+    template = 'Ytube/about.html'
+    title = 'Здесь будет информация о группах проекта Ytube'
+    authors = Author.objects.all()[:5]
+    context = {
+        'authors': authors,
+        'title': title,
+    }
+    return render(request, template, context)
 
 
 def show_authors(request, post_slug):
