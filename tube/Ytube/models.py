@@ -11,11 +11,11 @@ class Group(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('Ytube:groups', kwargs={"post_slug": self.slug})
+        return reverse('Ytube:groups', kwargs={"slug": self.slug})
 
     class Meta:
-        verbose_name = 'Группа'
-        verbose_name_plural = 'Группы'
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Post(models.Model):
@@ -34,7 +34,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('Ytube:post', kwargs={'post_slug': self.slug})
+        return reverse('Ytube:post', kwargs={'slug': self.slug})
 
     class Meta:
         ordering = ['-created_at']

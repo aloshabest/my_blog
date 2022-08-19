@@ -3,14 +3,21 @@ from django.http import HttpResponse
 from .models import Post, Group
 from django.views.generic import ListView, DetailView
 from django.db.models import F
-
+from random import randint
 
 def index(request):
     template = 'Ytube/index.html'
     title = 'Funny Blog'
-    posts = Post.objects.order_by('created_at')[:2]
+    posts = Post.objects.order_by('created_at')
+    count = Post.objects.count()
+    random_object_1 = Post.objects.all()[randint(0, count - 1)]
+    random_object_2 = Post.objects.all()[randint(0, count - 1)]
+    random_object_3 = Post.objects.all()[randint(0, count - 1)]
     context = {
         'posts': posts,
+        'random_object_1': random_object_1,
+        'random_object_2': random_object_2,
+        'random_object_3': random_object_3,
         'title': title,
         'text': 'Главная страница',
     }
@@ -40,8 +47,8 @@ def group(request):
     return render(request, template, context)
 
 
-def group_posts(request, post_slug):
-    group = get_object_or_404(Group, slug=post_slug)
+def group_posts(request, slug):
+    group = get_object_or_404(Group, slug=slug)
     posts = Post.objects.filter(group=group).order_by('-created_at')[:3]
     context = {
         'group': group,
@@ -63,8 +70,6 @@ def contact(request):
     return render(request, 'Ytube/contact.html')
 
 
-def support(request):
-    return render(request, 'Ytube/support.html')
 
 
 

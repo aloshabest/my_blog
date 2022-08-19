@@ -1,33 +1,4 @@
 {% load static %}
-<!--<div class="header">-->
-<!--    <div class="logo">-->
-<!--        <h1><a href="{% url 'Ytube:home' %}"><span>Social</span>Net<small>Funny Ytube blog</small></a></h1>-->
-<!--    </div>-->
-<!--    <div class="search">-->
-<!--        <form method="get" id="search" action="#">-->
-<!--            <span>-->
-<!--            <input type="text" value="Search..." name="s" id="s"/>-->
-<!--            <input name="searchsubmit" type="image" src="{% static 'images/search.gif' %}" value="Go" id="searchsubmit"-->
-<!--                   class="btn"/>-->
-<!--            </span>-->
-<!--        </form>-->
-
-<!--        <div class="clr"></div>-->
-<!--    </div>-->
-<!--    <div class="clr"></div>-->
-<!--    <div class="menu_nav">-->
-<!--        <ul>-->
-<!--            <li class="active"><a href="{% url 'Ytube:home' %}">Home</a></li>-->
-<!--            <li><a href="{% url 'Ytube:support' %}">Support</a></li>-->
-<!--            <li><a href="{% url 'Ytube:about' %}">About Us</a></li>-->
-<!--            <li><a href="{% url 'Ytube:group' %}">Groups</a></li>-->
-<!--            <li><a href="{% url 'Ytube:contact' %}">Contact Us</a></li>-->
-<!--        </ul>-->
-<!--        <div class="clr"></div>-->
-<!--    </div>-->
-<!--    <div class="hbg"><img src="{% static 'images/header_images.jpg' %}" width="923" height="291" alt=""/></div>-->
-<!--</div>-->
-
 
 <header role="banner">
     <div class="top-bar">
@@ -57,7 +28,7 @@
             <div class="col-12 text-center">
                 <a class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button"
                    aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
-                <h1 class="site-logo"><a href="index.html">Balita</a></h1>
+                <h1 class="site-logo"><a href="{% url 'Ytube:home' %}">Balita</a></h1>
             </div>
         </div>
     </div>
@@ -69,7 +40,7 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Home</a>
+                        <a class="nav-link active" href="{% url 'Ytube:home' %}">Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="category.html" id="dropdown04" data-toggle="dropdown"
@@ -97,10 +68,10 @@
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
+                        <a class="nav-link" href="{% url 'Ytube:about' %}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
+                        <a class="nav-link" href="{% url 'Ytube:contact' %}">Contact</a>
                     </li>
                 </ul>
 

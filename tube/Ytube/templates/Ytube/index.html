@@ -2,126 +2,78 @@
 {% load static %}
 
 
-<!--<div class="mainbar">-->
-<!--    {% for p in posts %}-->
-<!--    <div class="article">-->
-<!--        <h2><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h2>-->
-
-<!--        <div class="clr"></div>-->
-<!--        <p class="post-data"><span class="date">{{ p.created_at|date:"d.m.Y" }}</span> &nbsp;|&nbsp; Posted by <a href="#">{{ p.author }}</a>  &nbsp;|&nbsp; Group <a href="{% url 'Ytube:group' %}">{{ p.group }}</a>&nbsp;|&nbsp; Filed under <a href="#">templates</a>, <a href="#">internet</a></p>-->
-<!--        <img src="{% static 'images/images_1.jpg' %}" width="613" height="193" alt=""/>-->
-<!--        {{ p.content }}-->
-<!--        <p class="spec"><a href="#" class="com fr">Comments (3)</a> <a href="#" class="rm fl">Read more</a></p>-->
-<!--        <div class="clr"></div>-->
-<!--    </div>-->
-<!--    {% endfor %}-->
-<!--    <div class="pagenavi"><span class="pages">Page 1 of 2</span><span class="current">1</span><a href="#">2</a><a-->
-<!--            href="#">&raquo;</a></div>-->
-<!--</div>-->
-
-
-
-
-
-
-
 {% block content %}
 <section class="site-section pt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+
                 <div class="owl-carousel owl-theme home-slider">
+                    {% for post in posts %}
                     <div>
                         <a href="blog-single.html" class="a-block d-flex align-items-center height-lg"
-                           style="background-image: url('images/img_1.jpg'); ">
+                           style="background-image: url({{ post.photo.url }})">
                             <div class="text half-to-full">
                                 <div class="post-meta">
-                                    <span class="category">Lifestyle</span>
-                                    <span class="mr-2">March 15, 2018 </span> &bullet;
+                                    <span class="category">{{ post.group }}</span>
+                                    <span class="mr-2">{{ post.created_at }} </span> &bullet;
                                     <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                                 </div>
-                                <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta
-                                    eaque ipsa laudantium!</p>
+                                <h3>{{ post.title }}</h3>
+                                <p>{{ post.content|truncatewords_html:20|safe }}</p>
                             </div>
                         </a>
                     </div>
-                    <div>
-                        <a href="blog-single.html" class="a-block d-flex align-items-center height-lg"
-                           style="background-image: url('images/img_2.jpg'); ">
-                            <div class="text half-to-full">
-                                <div class="post-meta">
-                                    <span class="category">Lifestyle</span>
-                                    <span class="mr-2">March 15, 2018 </span> &bullet;
-                                    <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                </div>
-                                <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta
-                                    eaque ipsa laudantium!</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="blog-single.html" class="a-block d-flex align-items-center height-lg"
-                           style="background-image: url('images/img_3.jpg'); ">
-                            <div class="text half-to-full">
-                                <div class="post-meta">
-                                    <span class="category">Lifestyle</span>
-                                    <span class="mr-2">March 15, 2018 </span> &bullet;
-                                    <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                </div>
-                                <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nobis, ut dicta
-                                    eaque ipsa laudantium!</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                    {% endfor %}
 
             </div>
         </div>
         <div class="row">
+
             <div class="col-md-6 col-lg-4">
                 <a href="blog-single.html" class="a-block d-flex align-items-center height-md"
-                   style="background-image: url('{images/img_2.jpg'); ">
+                   style="background-image: url({{ random_object_1.photo.url }})">
                     <div class="text">
                         <div class="post-meta">
-                            <span class="category">Lifestyle</span>
-                            <span class="mr-2">March 15, 2018 </span> &bullet;
+                            <span class="category">{{ random_object_1.group }}</span>
+                            <span class="mr-2">{{ random_object_1.created_at }} </span> &bullet;
                             <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                         </div>
-                        <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
+                        <h3>{{ random_object_1.title }}</h3>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <a href="blog-single.html" class="a-block d-flex align-items-center height-md"
+                   style="background-image: url({{ random_object_2.photo.url }})">
+                    <div class="text">
+                        <div class="post-meta">
+                            <span class="category">{{ random_object_2.group }}</span>
+                            <span class="mr-2">{{ random_object_2.created_at }} </span> &bullet;
+                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                        </div>
+                        <h3>{{ random_object_2.title }}</h3>
                     </div>
                 </a>
             </div>
             <div class="col-md-6 col-lg-4">
                 <a href="blog-single.html" class="a-block d-flex align-items-center height-md"
-                   style="background-image: url('images/img_3.jpg'); ">
+                   style="background-image: url({{ random_object_3.photo.url }})">
                     <div class="text">
                         <div class="post-meta">
-                            <span class="category">Travel</span>
-                            <span class="mr-2">March 15, 2018 </span> &bullet;
+                            <span class="category">{{ random_object_3.group }}</span>
+                            <span class="mr-2">{{ random_object_3.created_at }} </span> &bullet;
                             <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                         </div>
-                        <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <a href="blog-single.html" class="a-block d-flex align-items-center height-md"
-                   style="background-image: url('images/img_4.jpg'); ">
-                    <div class="text">
-                        <div class="post-meta">
-                            <span class="category">Food</span>
-                            <span class="mr-2">March 15, 2018 </span> &bullet;
-                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                        </div>
-                        <h3>There’s a Cool New Way for Men to Wear Socks and Sandals</h3>
+                        <h3>{{ random_object_3.title }}</h3>
                     </div>
                 </a>
             </div>
         </div>
     </div>
+
+
 </section>
 
 <section class="site-section py-sm">
@@ -138,7 +90,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_5.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_5.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Food</span>
@@ -151,7 +103,7 @@
                     </div>
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_6.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_6.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Travel</span>
@@ -165,7 +117,7 @@
 
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_7.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_7.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Travel, Asia</span>
@@ -178,7 +130,7 @@
                     </div>
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_8.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_8.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Travel</span>
@@ -192,7 +144,7 @@
 
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_9.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_9.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Travel</span>
@@ -205,7 +157,7 @@
                     </div>
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_10.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_10.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Lifestyle</span>
@@ -219,7 +171,7 @@
 
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_11.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_11.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Lifestyle</span>
@@ -232,7 +184,7 @@
                     </div>
                     <div class="col-md-6">
                         <a href="blog-single.html" class="blog-entry element-animate" data-animate-effect="fadeIn">
-                            <img src="images/img_12.jpg" alt="Image placeholder">
+                            <img src="{% static 'images/img_12.jpg' %}" alt="Image placeholder">
                             <div class="blog-content-body">
                                 <div class="post-meta">
                                     <span class="category">Food</span>
@@ -271,7 +223,7 @@
                         <div class="post-entry-horzontal">
                             <a href="blog-single.html">
                                 <div class="image element-animate" data-animate-effect="fadeIn"
-                                     style="background-image: url(images/img_10.jpg);"></div>
+                                     style="background-image: url('{% static 'images/img_10.jpg' %}');"></div>
                                 <span class="text">
                       <div class="post-meta">
                         <span class="category">Travel</span>
@@ -287,7 +239,7 @@
                         <div class="post-entry-horzontal">
                             <a href="blog-single.html">
                                 <div class="image element-animate" data-animate-effect="fadeIn"
-                                     style="background-image: url(images/img_11.jpg);"></div>
+                                     style="background-image: url('{% static 'images/img_11.jpg' %}');"></div>
                                 <span class="text">
                       <div class="post-meta">
                         <span class="category">Lifestyle</span>
@@ -303,7 +255,7 @@
                         <div class="post-entry-horzontal">
                             <a href="blog-single.html">
                                 <div class="image element-animate" data-animate-effect="fadeIn"
-                                     style="background-image: url(images/img_12.jpg);"></div>
+                                     style="background-image: url('{% static 'images/img_12.jpg' %}');"></div>
                                 <span class="text">
                       <div class="post-meta">
                         <span class="category">Food</span>
@@ -323,112 +275,9 @@
             </div>
 
             <!-- END main-content -->
+            {% include 'includes/sidebar.html' %}
 
-            <div class="col-md-12 col-lg-4 sidebar">
-                <div class="sidebar-box search-form-wrap">
-                    <form action="#" class="search-form">
-                        <div class="form-group">
-                            <span class="icon fa fa-search"></span>
-                            <input type="text" class="form-control" id="s" placeholder="Type a keyword and hit enter">
-                        </div>
-                    </form>
-                </div>
-                <!-- END sidebar-box -->
-                <div class="sidebar-box">
-                    <div class="bio text-center">
-                        <img src="{% static ' images/person_1.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                        <div class="bio-body">
-                            <h2>Meagan Smith</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem facilis sunt
-                                repellendus excepturi beatae porro debitis voluptate nulla quo veniam fuga sit molestias
-                                minus.</p>
-                            <p><a href="#" class="btn btn-primary btn-sm">Read my bio</a></p>
-                            <p class="social">
-                                <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                                <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                                <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
-                                <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- END sidebar-box -->
-                <div class="sidebar-box">
-                    <h3 class="heading">Popular Posts</h3>
-                    <div class="post-entry-sidebar">
-                        <ul>
-                            <li>
-                                <a href="">
-                                    <img src="{% static 'images/img_2.jpg' %}" alt="Image placeholder" class="mr-4">
-                                    <div class="text">
-                                        <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                                        <div class="post-meta">
-                                            <span class="mr-2">March 15, 2018 </span> &bullet;
-                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <img src="{% static 'images/img_4.jpg' %}" alt="Image placeholder" class="mr-4">
-                                    <div class="text">
-                                        <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                                        <div class="post-meta">
-                                            <span class="mr-2">March 15, 2018 </span> &bullet;
-                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <img src="{% static 'images/img_12.jpg' %}" alt="Image placeholder" class="mr-4">
-                                    <div class="text">
-                                        <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                                        <div class="post-meta">
-                                            <span class="mr-2">March 15, 2018 </span> &bullet;
-                                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- END sidebar-box -->
 
-                <div class="sidebar-box">
-                    <h3 class="heading">Categories</h3>
-                    <ul class="categories">
-                        <li><a href="#">Courses <span>(12)</span></a></li>
-                        <li><a href="#">News <span>(22)</span></a></li>
-                        <li><a href="#">Design <span>(37)</span></a></li>
-                        <li><a href="#">HTML <span>(42)</span></a></li>
-                        <li><a href="#">Web Development <span>(14)</span></a></li>
-                    </ul>
-                </div>
-                <!-- END sidebar-box -->
-
-                <div class="sidebar-box">
-                    <h3 class="heading">Tags</h3>
-                    <ul class="tags">
-                        <li><a href="#">Travel</a></li>
-                        <li><a href="#">Adventure</a></li>
-                        <li><a href="#">Food</a></li>
-                        <li><a href="#">Lifestyle</a></li>
-                        <li><a href="#">Business</a></li>
-                        <li><a href="#">Freelancing</a></li>
-                        <li><a href="#">Travel</a></li>
-                        <li><a href="#">Adventure</a></li>
-                        <li><a href="#">Food</a></li>
-                        <li><a href="#">Lifestyle</a></li>
-                        <li><a href="#">Business</a></li>
-                        <li><a href="#">Freelancing</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- END sidebar -->
 
         </div>
     </div>

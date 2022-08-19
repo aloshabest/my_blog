@@ -1,37 +1,4 @@
 {% load static %}
-<!--<!DOCTYPE html>-->
-<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
-<!--<head>-->
-<!--  <title>{{ title }}</title>-->
-<!--  <meta charset=UTF-8">-->
-<!--  <link href="{% static 'style.css' %}" rel="stylesheet">-->
-<!--  <script type="text/javascript" src="{% static 'js/jquery-1.3.2.min.js' %}"></script>-->
-<!--  <script type="text/javascript" src="{% static 'js/script.js' %}"></script>-->
-<!--  <script type="text/javascript" src="{% static 'js/cufon-yui.js' %}"></script>-->
-<!--  <script type="text/javascript" src="{% static 'js/arial.js' %}"></script>-->
-<!--  <script type="text/javascript" src="{% static 'js/cuf_run.js' %}"></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--  <div class="main">-->
-<!--    <div class="main_resize">-->
-
-<!--      {% include 'includes/header.html' %}-->
-
-<!--      <div class="content">-->
-<!--        <div class="content_bg">-->
-
-<!--          {% include 'includes/sidebar.html' %}-->
-
-<!--          <div class="clr"></div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  {% include 'includes/footer.html' %}-->
-<!--</body>-->
-<!--</html>-->
-
-
 
 <!Doctype html>
 <html lang="en">
@@ -65,21 +32,23 @@
     <!-- END section -->
 
 
-    {% include 'includes/footer.html' %}
+
     <!-- END footer -->
 
     <!-- loader -->
-    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
+<!--    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>-->
 
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/jquery-migrate-3.0.0.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.0.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
 
 
-    <script src="js/main.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+    {% include 'includes/footer.html' %}
   </body>
 </html>

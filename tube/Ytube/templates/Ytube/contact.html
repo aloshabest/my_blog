@@ -3,41 +3,54 @@
 
 {% block content %}
 
-<div class="mainbar">
-  <div class="article">
-    <h2><span>Contact</span></h2>
-    <div class="clr"></div>
-    <p>You can find more of my free template designs at my website. For premium commercial designs, you can check out
-      DreamTemplate.com.</p>
+<section class="site-section">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h1>Contact</h1>
+      </div>
+    </div>
+    <div class="row blog-entries">
+      <div class="col-md-12 col-lg-8 main-content">
+
+        <form action="#" method="post">
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" class="form-control ">
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="phone">Phone</label>
+              <input type="text" id="phone" class="form-control ">
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" class="form-control ">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <label for="message">Write Message</label>
+              <textarea name="message" id="message" class="form-control " cols="30" rows="8"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <input type="submit" value="Send Message" class="btn btn-primary">
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+
+      <!-- END main-content -->
+
+      {% include 'includes/sidebar.html' %}
+      <!-- END sidebar -->
+
+    </div>
   </div>
-  <div class="article">
-    <h2><span>Send us</span> mail</h2>
-    <div class="clr"></div>
-    <form action="#" method="post" id="sendemail">
-      <ol>
-        <li>
-          <label for="name">Name (required)</label>
-          <input id="name" name="name" class="text"/>
-        </li>
-        <li>
-          <label for="email">Email Address (required)</label>
-          <input id="email" name="email" class="text"/>
-        </li>
-        <li>
-          <label for="website">Website</label>
-          <input id="website" name="website" class="text"/>
-        </li>
-        <li>
-          <label for="message">Your Message</label>
-          <textarea id="message" name="message" rows="8" cols="50"></textarea>
-        </li>
-        <li>
-          <input type="image" name="imageField" id="imageField" src="{% static 'images/submit.gif' %}" class="send"/>
-          <div class="clr"></div>
-        </li>
-      </ol>
-    </form>
-  </div>
-</div>
+</section>
 
 {% endblock %}
