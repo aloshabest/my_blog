@@ -18,10 +18,26 @@ class Group(models.Model):
         verbose_name_plural = 'Категории'
 
 
+class Author(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Наименование')
+    slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
+    description = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('Ytube:authors', kwargs={"post_slug": self.slug})
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
+
 class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Наименование')
     slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
-    author = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, blank=True, verbose_name='Автор')
     content = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True)
@@ -40,5 +56,7 @@ class Post(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Cтатья'
         verbose_name_plural = 'Статьи'
+
+
 
 

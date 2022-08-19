@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Post, Group
+from .models import Post, Group, Author
 from django.utils.safestring import mark_safe
 
 
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     save_as = True
-    list_display = ('id', 'title', 'slug', 'created_at', 'get_photo', 'views', 'group')
-    list_editable = ('group',)
+    list_display = ('id', 'title', 'slug', 'created_at', 'get_photo', 'views', 'group', 'author')
+    list_editable = ('group', 'author',)
     list_display_links = ('id', 'title')
     search_fields = ('title',)
     readonly_fields = ('views', 'created_at', 'get_photo')
@@ -25,6 +25,13 @@ class PostAdmin(admin.ModelAdmin):
 class GroupAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
+
+class AuthorAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+
+
 admin.site.register(Post, PostAdmin)
 admin.site.register(Group, GroupAdmin)
+admin.site.register(Author, AuthorAdmin)
 

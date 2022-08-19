@@ -21,11 +21,11 @@
                         <div class="post-entry-horzontal">
                             <a href="{{ g.get_absolute_url }}">
                                 <div class="image element-animate" data-animate-effect="fadeIn"
-                                     style="background-image: url(images/img_10.jpg);"></div>
+                                     style="background-image: url({{ g.photo.url }})"></div>
                                 <span class="text">
                                   <div class="post-meta">
                                     <span class="category">{{ g.title }}</span>
-                                    <span class="mr-2">{{ post.created_at|date:"d.m.Y" }} </span> &bullet;
+                                    <span class="mr-2">{{ g.created_at|date:"d.m.Y" }} </span> &bullet;
                                     <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                                   </div>
                                   <h2>There’s a Cool New Way for Men to Wear Socks and Sandals</h2>

@@ -61,8 +61,13 @@ def show_groups(request, post_slug):
 
 
 
-def about(request):
+def author(request):
     return render(request, 'Ytube/about.html')
+
+
+def show_authors(request, post_slug):
+    return render(request, 'Ytube/about.html')
+
 
 
 def single(request):
