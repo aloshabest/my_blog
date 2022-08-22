@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Ytube.apps.YtubeConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
