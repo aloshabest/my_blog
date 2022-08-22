@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Post, Group, Author
-from django.views.generic import ListView, DetailView
-from django.db.models import F
 from random import randint
+
 
 def index(request):
     template = 'Ytube/index.html'
@@ -83,6 +82,7 @@ def single(request):
 
 def contact(request):
     return render(request, 'Ytube/contact.html')
+
 
 
 
