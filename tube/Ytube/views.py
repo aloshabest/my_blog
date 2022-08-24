@@ -78,10 +78,16 @@ def authors(request):
 def show_authors(request, post_slug):
     template = 'Ytube/about.html'
     author = get_object_or_404(Author, slug=post_slug)
+    posts = Post.objects.filter(author=author).order_by('-created_at')
+
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
         'author': author,
         'cat_selected': 1,
+        'page_obj': page_obj,
     }
     return render(request, template, context)
 
