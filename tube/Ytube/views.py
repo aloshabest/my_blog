@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.core.paginator import Paginator
 from .models import Post, Group, Author
 from random import randint
 
@@ -9,18 +9,23 @@ def index(request):
     title = 'Funny Blog'
     posts = Post.objects.order_by('created_at')
     count = Post.objects.count()
+
     random_lst = []
     while len(random_lst) <= 2:
         r = Post.objects.all()[randint(0, count - 1)]
         if r not in random_lst:
             random_lst.append(r)
-    another_posts = Post.objects.all()[:8]
+
+    paginator = Paginator(Post.objects.all(), 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'posts': posts,
         'random_lst': random_lst,
-        'another_posts': another_posts,
         'title': title,
         'text': 'Главная страница',
+        'page_obj': page_obj,
     }
     return render(request, template, context)
 

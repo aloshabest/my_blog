@@ -8,6 +8,9 @@ def password_reset_form(request):
     return render(request, 'Ytube/index.html')
 
 
+
+
+
 class SignUp(CreateView):
     form_class = CreationForm
     success_url = reverse_lazy('posts:index')
