@@ -42,47 +42,50 @@ def show_post(request, post_slug):
     return render(request, template, context)
 
 
-def group(request):
-    template = 'Ytube/group.html'
-    title = 'Здесь будет информация о группах проекта Ytube'
-    groups = Group.objects.all()[:1]
-    context = {
-        'groups': groups,
-        'title': title,
-    }
-    return render(request, template, context)
-
-
 def show_groups(request, post_slug):
     group = get_object_or_404(Group, slug=post_slug)
-    posts = Post.objects.filter(group=group).order_by('-created_at')[:7]
+    posts = Post.objects.filter(group=group).order_by('-created_at')
+
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'group': group,
         'posts': posts,
         'cat_selected': 1,
+        'page_obj': page_obj,
     }
     return render(request, 'Ytube/single_group.html', context)
 
 
 
-def author(request):
-    template = 'Ytube/about.html'
-    title = 'Здесь будет информация о группах проекта Ytube'
-    authors = Author.objects.all()[:5]
+def authors(request):
+    template = 'Ytube/authors.html'
+    authors = Author.objects.all()
+
+    paginator = Paginator(authors, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'authors': authors,
-        'title': title,
+        'page_obj': page_obj,
     }
     return render(request, template, context)
 
 
 def show_authors(request, post_slug):
-    return render(request, 'Ytube/about.html')
+    template = 'Ytube/about.html'
+    author = get_object_or_404(Author, slug=post_slug)
+
+    context = {
+        'author': author,
+        'cat_selected': 1,
+    }
+    return render(request, template, context)
 
 
-
-def single(request):
-    return render(request, 'Ytube/single.html')
 
 
 def contact(request):

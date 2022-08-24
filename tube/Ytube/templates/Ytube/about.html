@@ -10,14 +10,17 @@
             <div class="col-md-12 col-lg-8 main-content">
 
                 <div class="row">
-                    {% for a in authors %}
-                    <div class="col-md-12" style="margin-bottom: 75px;">
-                        <h2 class="mb-4">My name is {{ a.title }}</h2>
+
+                    <div class="col-md-12" style="margin-bottom: 75px; text-align: center;">
+                        <h2 class="mb-4">Hi There! I'm {{ author.title }}</h2>
+                        <p class="mb-5" style="text-align: center;">
+                            <img src="{{ author.photo.url }}" alt="Image placeholder" class="img-fluid " style="max-height: 500px;">
+                        </p>
                         <h4 class="mb-4">A few words about me:</h4>
-                        {{ a.description }}
+                        {{ author.description }}
 
                     </div>
-                    {% endfor %}
+
                 </div>
 
                 <div class="row mb-5 mt-5">

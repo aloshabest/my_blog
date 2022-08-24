@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="site-section">
+    <div class="container">
+
+        <div class="row blog-entries">
+            <div class="col-md-12 col-lg-8 main-content">
+                {% for a in authors %}
+                <div class="post-entry-horzontal">
+                    <a href="{{ a.get_absolute_url }}">
+                        <div class="image element-animate" data-animate-effect="fadeIn"
+                             style="background-image: url({{ a.photo.url }})">
+                        </div>
+                        <span class="text">
+                            <p>{{ a.description|truncatewords_html:30|safe }}</p>
+                        </span>
+                    </a>
+                </div>
+                {% endfor %}
+
+
+
+
+                {% include 'includes/paginator.html' %}
+
+
+            </div>
+
+            <!-- END main-content -->
+
+            {% include 'includes/sidebar.html' %}
+            <!-- END sidebar -->
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

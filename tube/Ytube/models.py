@@ -21,13 +21,14 @@ class Group(models.Model):
 class Author(models.Model):
     title = models.CharField(max_length=255, verbose_name='Наименование')
     slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=2000)
+    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('Ytube:authors', kwargs={"post_slug": self.slug})
+        return reverse('Ytube:author', kwargs={"post_slug": self.slug})
 
     class Meta:
         verbose_name = 'Автор'
