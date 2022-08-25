@@ -73,13 +73,22 @@
                         <a class="nav-link" href="{% url 'Ytube:authors' %}">Authors</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'Ytube:contact' %}">Contact</a>
+                        <a class="nav-link" href="{% url 'users:contacts' %}">Contact</a>
                     </li>
 
                     {% if user.is_authenticated %}
 
-                    <li class="nav-item" style="margin-left: 100px;">
-                        <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
+                    <li class="nav-item dropdown" style="margin-left: 100px;">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Personal</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown05">
+                            <a class="dropdown-item" href="#">My posts</a>
+                            <a class="dropdown-item" href="#">New posts</a>
+                            <a class="dropdown-item" href="#">My subscriptions</a>
+                            <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
+
+                        </div>
+
                     </li>
 
                     {% else %}

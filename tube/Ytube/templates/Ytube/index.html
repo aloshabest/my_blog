@@ -38,7 +38,7 @@
                             <span class="mr-2">{{ i.created_at|date:"d.m.Y" }} </span> &bullet;
                             <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                         </div>
-                        <h3>{{ i.title }}</h3>
+                        <h3>{{ i.title|truncatewords_html:30|safe }}</h3>
                     </div>
                 </a>
             </div>
@@ -71,7 +71,7 @@
                                     <span class="mr-2">{{ an.created_at|date:"d.m.Y" }} </span> &bullet;
                                     <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                                 </div>
-                                <h2>{{ an.title }}</h2>
+                                <h2>{{ an.title|truncatewords_html:7|safe }}</h2>
                             </div>
                         </a>
                     </div>
