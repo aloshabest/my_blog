@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 def gen_slug(s):
@@ -29,6 +31,7 @@ class Author(models.Model):
     slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
     description = models.CharField(max_length=2000)
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='user')
 
     def __str__(self):
         return self.title

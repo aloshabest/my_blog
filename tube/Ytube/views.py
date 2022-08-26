@@ -3,9 +3,13 @@ from django.core.paginator import Paginator
 from .models import Post, Group, Author
 from random import randint
 from .forms import PostForm
-from django.views.generic import View
+from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
+from time import timezone
+from django.utils.text import slugify
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def index(request):
@@ -96,34 +100,20 @@ def show_authors(request, post_slug):
     return render(request, template, context)
 
 
-# class PostCreate(View):
-#     def get(self, request):
-#         form = PostForm()
-#         return render(request, 'Ytube/create_post.html', context={'form': form})
-#
-#     def post(self, request):
-#         bound_form = PostForm(request.get())
-#         if bound_form.is_valid():
-#             new_post = bound_form.save()
-#             return redirect(new_post)
-#         return render(request, 'Ytube/index.html', context={'form': bound_form})
+def post_new(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = Author.objects.get(user=request.user)
+            post.save()
+            return HttpResponseRedirect(post.get_absolute_url())
+    else:
+        form = PostForm()
+    return render(request, 'Ytube/post_form.html', {'form': form})
 
 
-def post_create(request):
-    form = PostForm(request.POST or None)
-    print(form)
-    if form.is_valid():
-        print('1')
-        instance = form.save(commit=False)
-        instance.save()
-        messages.success(request, "Successfully Created")
-        return HttpResponseRedirect(instance.get_absolute_url())
 
-    context = {
-        'form': form
-    }
-    print(context)
-    return render(request, 'post/create_post.html', context)
 
 
 
@@ -137,9 +127,6 @@ def post_create(request):
 #     form_class = PostForm
 #     success_url = reverse_lazy('Ytube:home')
 #     template_name = 'Ytube/create_post.html'
-
-
-
 
 
 
