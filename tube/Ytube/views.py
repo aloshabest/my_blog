@@ -1,7 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from .models import Post, Group, Author
 from random import randint
+from .forms import PostForm
+from django.views.generic import View
+from django.contrib import messages
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def index(request):
@@ -92,10 +96,47 @@ def show_authors(request, post_slug):
     return render(request, template, context)
 
 
+# class PostCreate(View):
+#     def get(self, request):
+#         form = PostForm()
+#         return render(request, 'Ytube/create_post.html', context={'form': form})
+#
+#     def post(self, request):
+#         bound_form = PostForm(request.get())
+#         if bound_form.is_valid():
+#             new_post = bound_form.save()
+#             return redirect(new_post)
+#         return render(request, 'Ytube/index.html', context={'form': bound_form})
 
 
-def contact(request):
-    return render(request, 'Ytube/contact.html')
+def post_create(request):
+    form = PostForm(request.POST or None)
+    print(form)
+    if form.is_valid():
+        print('1')
+        instance = form.save(commit=False)
+        instance.save()
+        messages.success(request, "Successfully Created")
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    context = {
+        'form': form
+    }
+    print(context)
+    return render(request, 'post/create_post.html', context)
+
+
+
+# def post_create(request):
+#     template = 'Ytube/create_post.html'
+#     form = PostForm
+#     return render(request, template, context={'form': form})
+
+
+# class PostCreate(CreateView):
+#     form_class = PostForm
+#     success_url = reverse_lazy('Ytube:home')
+#     template_name = 'Ytube/create_post.html'
 
 
 

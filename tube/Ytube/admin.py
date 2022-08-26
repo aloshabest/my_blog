@@ -21,6 +21,9 @@ class PostAdmin(admin.ModelAdmin):
 
     get_photo.short_description = 'Фото'
 
+    class Meta:
+        model = Post
+
 
 class GroupAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}

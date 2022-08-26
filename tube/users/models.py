@@ -1,8 +1,11 @@
 from django.db import models
 
+
 class Contact(models.Model):
-    Name = models.CharField(max_length=100)
-    Email = models.EmailField()
-    Subject = models.CharField(max_length=100)
-    Message = models.TextField()
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
     is_answered = models.BooleanField(default=False)
+
+

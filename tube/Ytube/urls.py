@@ -13,7 +13,7 @@ urlpatterns = [
     path('group/<slug:post_slug>/', show_groups, name='groups'),
     path('authors/', authors, name='authors'),
     path('author/<slug:post_slug>/', show_authors, name='author'),
-    path('contact/', contact, name='contact'),
+    path('create/', post_create, name='post_create'),
 
 ]
 

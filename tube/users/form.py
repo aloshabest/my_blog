@@ -16,4 +16,5 @@ class CreationForm(UserCreationForm):
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = ('Name', 'Email', 'Subject', 'Message')
+        fields = ('name', 'email', 'subject', 'message')
+

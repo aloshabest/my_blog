@@ -14,7 +14,6 @@ class SignUp(CreateView):
     template_name = 'users/signup.html'
 
 
-
 class UserContact(CreateView):
     form_class = ContactForm
     success_url = reverse_lazy('Ytube:home')
@@ -22,8 +21,6 @@ class UserContact(CreateView):
 
 
 
-# def user_contact(request):
-#     form = ContactForm()
-#     return render(request, 'Ytube/contact.html', {'form': form})
+
 
 

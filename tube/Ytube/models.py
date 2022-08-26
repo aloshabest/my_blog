@@ -1,5 +1,11 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
+
+
+def gen_slug(s):
+    new_slug = slugify(s, allow_unicode=True)
+    return new_slug
 
 
 class Group(models.Model):
@@ -37,7 +43,7 @@ class Author(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Наименование')
-    slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
+    slug = models.SlugField(max_length=255, verbose_name='Url', unique=True, blank=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, blank=True, verbose_name='Автор')
     content = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
@@ -53,12 +59,15 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('Ytube:post', kwargs={'post_slug': self.slug})
 
+    # def save(self, *args, **kwargs):
+    #     if not self.id:
+    #         self.slug = gen_slug(self.title)
+    #     super().save(*args, **kwargs)
+
     class Meta:
         ordering = ['-created_at']
         verbose_name = 'Cтатья'
         verbose_name_plural = 'Статьи'
-
-
 
 
 
