@@ -2,6 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
+
 User = get_user_model()
 
 
@@ -27,11 +31,11 @@ class Group(models.Model):
 
 
 class Author(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Наименование')
+    title = models.CharField(max_length=255, verbose_name='Имя пользователя')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
-    description = models.CharField(max_length=2000)
-    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='user')
+    description = models.CharField(max_length=2000, verbose_name='Обо мне')
+    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, verbose_name='Фото')
 
     def __str__(self):
         return self.title
@@ -39,9 +43,23 @@ class Author(models.Model):
     def get_absolute_url(self):
         return reverse('blog:author', kwargs={"post_slug": self.slug})
 
+    def get_edit(self):
+        return reverse('users:auth/profile', kwargs={"post_slug": self.slug})
+
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Author.objects.create(user=instance, slug=slugify(str(instance)), title=str(instance), description='About me....', photo='photo/2022/08/19/img_1.jpg')
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.author.save()
 
 
 class Post(models.Model):

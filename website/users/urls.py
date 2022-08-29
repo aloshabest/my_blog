@@ -6,6 +6,7 @@ app_name = 'users'
 
 urlpatterns = [
     path('', password_reset_form, name='password_reset_form'),
+    path('profile/<slug:post_slug>/', update_profile, name='profile'),
     path('signup/', SignUp.as_view(), name='signup'),
     path(
       'logout/',
@@ -22,5 +23,5 @@ urlpatterns = [
         UserContact.as_view(template_name='users/contact.html'),
         name='contacts'
     ),
-    path('profile/<int:pk>/', ProfileView.as_view(), name='profile'),
+
 ]
