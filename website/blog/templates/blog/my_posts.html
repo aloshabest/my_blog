@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="site-section">
+    <div class="container">
+
+        <div class="row blog-entries">
+            <div class="col-md-12 col-lg-8 main-content">
+
+                <div class="row mb-5 mt-5">
+                    <div class="col-md-12 mb-5">
+                        <h2>Your posts</h2>
+                    </div>
+                    <div class="col-md-12">
+                        {% for i in page_obj %}
+                        <div class="post-entry-horzontal">
+                            <a href="{{ i.get_absolute_url }}">
+                                <div class="image" style="background-image: url('{{ i.photo.url }}');">
+                                </div>
+                                <span class="text">
+                                    <div class="post-meta">
+                                        <span class="category">{{ i.group }}</span>
+                                        <span class="mr-2">{{ i.created_at|date:"d.m.Y" }} </span> &bullet;
+                                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+
+                                    </div>
+                                    <h2>{{ i.title }}</h2>
+                                </span>
+                            </a>
+                            <a href="{% url 'blog:post_edit' i.slug %}"><span class="category">Редатировать</span></a>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                {% include 'includes/paginator.html' %}
+
+            </div>
+
+            <!-- END main-content -->
+
+            {% include 'includes/sidebar.html' %}
+            <!-- END sidebar -->
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

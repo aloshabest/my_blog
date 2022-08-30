@@ -99,6 +99,23 @@ def show_authors(request, post_slug):
     return render(request, template, context)
 
 
+def my_posts(request):
+    template = 'blog/my_posts.html'
+    author = get_object_or_404(Author, user=request.user)
+    posts = Post.objects.filter(author=author.user).order_by('-created_at')
+
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'author': author,
+        'cat_selected': 1,
+        'page_obj': page_obj,
+    }
+    return render(request, template, context)
+
+
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -111,6 +128,30 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, 'blog/create_post.html', {'form': form})
+
+
+def post_edit(request, post_slug):
+    post = get_object_or_404(Post, slug=post_slug)
+    is_edit = True
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.slug = slugify(str(post))
+            post.is_edit = is_edit
+            post.save()
+            return HttpResponseRedirect(post.get_absolute_url())
+    else:
+        form = PostForm(instance=post)
+        context = {
+            'form': form,
+            'is_edit': is_edit,
+        }
+    return render(request, 'blog/create_post.html', context)
+
+
+
 
 
 
