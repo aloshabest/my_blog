@@ -121,8 +121,8 @@ def post_new(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
+            post.slug = slugify(post)
             post.author = request.user
-            post.slug = slugify(str(post))
             post.save()
             return HttpResponseRedirect(post.get_absolute_url())
     else:

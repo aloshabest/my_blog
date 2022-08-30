@@ -32,7 +32,7 @@ class Group(models.Model):
 
 class Author(models.Model):
     title = models.CharField(max_length=255, verbose_name='Имя пользователя')
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
     description = models.CharField(max_length=2000, verbose_name='Обо мне')
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, verbose_name='Фото')
