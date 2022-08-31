@@ -2,14 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.core.paginator import Paginator
 from .models import Post, Group, Author
 from random import randint
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from django.views.generic.edit import CreateView
-from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from time import timezone
 from django.utils.text import slugify
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 def index(request):
@@ -42,12 +39,28 @@ def show_post(request, post_slug):
     template = 'blog/single.html'
     post = get_object_or_404(Post, slug=post_slug)
 
-    context = {
+    comments = post.comments.filter(active=True)
+    author = get_object_or_404(Author, slug=request.user)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+
+            return redirect(post.get_absolute_url())
+    else:
+
+        form = CommentForm()
+
+    return render(request, template, {
         'post': post,
         'title': post.title,
-        'cat_selected': 1,
-    }
-    return render(request, template, context)
+        'comments': comments,
+        'form': form,
+        'author': author,
+    })
 
 
 def show_groups(request, post_slug):
@@ -151,8 +164,19 @@ def post_edit(request, post_slug):
     return render(request, 'blog/create_post.html', context)
 
 
-
-
+def add_comment(request, post_slug):
+    if request.method == "POST":
+        post = get_object_or_404(Post, slug=post_slug, user=request.user)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return HttpResponseRedirect(post.get_absolute_url())
+    else:
+        form = PostForm()
+    return render(request, 'blog/single.html', {'form': form})
 
 
 

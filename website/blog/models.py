@@ -71,6 +71,7 @@ class Post(models.Model):
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, verbose_name='Фото')
     views = models.IntegerField(default=0, verbose_name='Количество просмотров')
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Категория')
+    #comments = models.ForeignKey('Comment', on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Комментарии')
     # category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts', verbose_name='Категория')
     # tags = models.ManyToManyField(Tag, blank=True, related_name='posts')
 
@@ -86,5 +87,16 @@ class Post(models.Model):
         verbose_name_plural = 'Статьи'
 
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, default=None, related_name='comments')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, unique=False, null=True, verbose_name='Автор комментария')
+    content = models.TextField(blank=True, verbose_name='Текст')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
 
 

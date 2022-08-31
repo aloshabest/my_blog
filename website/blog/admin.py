@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Group, Author
+from .models import Post, Group, Author, Comment
 from django.utils.safestring import mark_safe
 
 
@@ -37,7 +37,12 @@ class AuthorAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'content', 'created_at', 'active')
+    list_filter = ('active', 'created_at')
+
+
 admin.site.register(Post, PostAdmin)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Author, AuthorAdmin)
-
+admin.site.register(Comment, CommentAdmin)
