@@ -35,7 +35,7 @@ def index(request):
     return render(request, template, context)
 
 
-def show_post(request, post_slug):
+def show_post(request, post_slug, parent_id=None):
     template = 'blog/single.html'
     post = get_object_or_404(Post, slug=post_slug)
 
@@ -46,9 +46,14 @@ def show_post(request, post_slug):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            if request.POST.get('parent', None):
+                form.parent_id = int(request.POST.get('parent'))
+
             comment.post = post
             comment.author = request.user
             comment.photo = author.photo
+
+
             comment.save()
             return redirect(post.get_absolute_url())
     else:
@@ -60,7 +65,23 @@ def show_post(request, post_slug):
         'title': post.title,
         'comments': comments,
         'form': form,
+        'parent_id': parent_id,
     })
+
+
+def reply_page(request):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post_id = request.POST.get('post_id')  # from hidden input
+            parent_id = request.POST.get('parent')  # from hidden input
+            post_url = request.POST.get('post_url')  # from hidden input
+            reply = form.save(commit=False)
+            reply.post = Post(id=post_id)
+            reply.parent = Comment(id=parent_id)
+            reply.save()
+            return redirect(post_url + '#' + str(reply.id))
+    return redirect("/")
 
 
 def show_groups(request, post_slug):

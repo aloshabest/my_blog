@@ -51,7 +51,7 @@
                                     <h3>{{ comment.author }}</h3>
                                     <div class="meta">{{ comment.created_at }}</div>
                                     <p>{{ comment.content|linebreaks }}</p>
-                                    <p><a href="#" class="reply">Reply</a></p>
+                                    <p><a href="#formReview" onclick="addReview('{{ comment.user }}', '{{ comment.id }}')" class="reply">Reply</a></p>
                                 </div>
                                 {% if not comment.is_leaf_node %}
                                     <ul class="children">
@@ -71,8 +71,10 @@
 
                     <div class="comment-form-wrap pt-5">
                         <h3 class="mb-5">Leave a comment</h3>
-                        <form class="p-5 bg-light" method="post">
+                        <form class="p-5 bg-light" method="post" id="formReview">
                             {% csrf_token %}
+
+                            <input type="hidden" name="parent" id="parent_id" value="">
 
                             {% for field in form %}
 
@@ -107,7 +109,12 @@
                     </div>
 
                     {% endif %}
-
+                    <script>
+                        function addReview(name, id) {
+                            document.getElementById("parent_id").value = id;
+                            document.getElementById("parent_id").innerText = ${user},
+                        }
+                    </script>
                 </div>
 
 

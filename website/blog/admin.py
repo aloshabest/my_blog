@@ -38,7 +38,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('post', 'author', 'content', 'photo', 'created_at', 'active', 'parent')
+    list_display = ('post', 'author', 'content', 'photo', 'created_at', 'active', 'parent', 'reply_to')
     list_filter = ('active', 'created_at')
 
 
