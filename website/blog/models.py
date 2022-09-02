@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 User = get_user_model()
@@ -87,16 +88,21 @@ class Post(models.Model):
         verbose_name_plural = 'Статьи'
 
 
-class Comment(models.Model):
+class Comment(MPTTModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, default=None, related_name='comments')
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, unique=False, null=True, verbose_name='Автор комментария')
+    author = models.OneToOneField(User, on_delete=models.CASCADE, default=None, null=True, verbose_name='Автор комментария')
     content = models.TextField(blank=True, verbose_name='Текст')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
+    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', default=None, null=True, blank=True, verbose_name='Фото')
     active = models.BooleanField(default=True)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    reply_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='replyers')
 
-    class Meta:
+    class MPTTMeta:
         ordering = ['-created_at']
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+
+
 
 

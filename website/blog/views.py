@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from django.core.paginator import Paginator
-from .models import Post, Group, Author
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .models import Post, Group, Author, Comment
 from random import randint
 from .forms import PostForm, CommentForm
 from django.views.generic.edit import CreateView
@@ -40,15 +40,16 @@ def show_post(request, post_slug):
     post = get_object_or_404(Post, slug=post_slug)
 
     comments = post.comments.filter(active=True)
-    author = get_object_or_404(Author, slug=request.user)
+
     if request.method == "POST":
+        author = get_object_or_404(Author, user_id=request.user.id)
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
             comment.author = request.user
+            comment.photo = author.photo
             comment.save()
-
             return redirect(post.get_absolute_url())
     else:
 
@@ -59,7 +60,6 @@ def show_post(request, post_slug):
         'title': post.title,
         'comments': comments,
         'form': form,
-        'author': author,
     })
 
 
@@ -164,19 +164,32 @@ def post_edit(request, post_slug):
     return render(request, 'blog/create_post.html', context)
 
 
-def add_comment(request, post_slug):
-    if request.method == "POST":
-        post = get_object_or_404(Post, slug=post_slug, user=request.user)
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.author = request.user
-            comment.save()
-            return HttpResponseRedirect(post.get_absolute_url())
-    else:
-        form = PostForm()
-    return render(request, 'blog/single.html', {'form': form})
+# def add_comment(request, post_slug, parent_comment_id=None):
+#     if request.method == "POST":
+#         post = get_object_or_404(Post, slug=post_slug, user=request.user)
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.post = post
+#             comment.user = request.user
+#             if parent_comment_id:
+#                 parent_comment = Comment.objects.get(id=parent_comment_id)
+#                 comment.parent_id = parent_comment.get_root().id
+#                 comment.reply_to = parent_comment.user
+#                 comment.save()
+#
+#                 return HttpResponse('200 OK')
+#
+#             comment.save()
+#             return HttpResponseRedirect(post.get_absolute_url())
+#     else:
+#         form = CommentForm()
+#         context = {
+#             'form': form,
+#             'post_slug': post_slug,
+#             'parent_comment_id': parent_comment_id,
+#         }
+#     return render(request, 'blog/single.html', context)
 
 
 

@@ -34,104 +34,36 @@
                             href="#">#asia</a></p>
                 </div>
 
+                {% load mptt_tags %}
+
                 <div class="pt-5">
                     <h3 class="mb-5">{{ comments.count }} Comments</h3>
                     <ul class="comment-list">
-
-                        {% for comment in comments %}
-                        <li class="comment">
-                            <div class="vcard">
-                                <img src="{{ author.photo.url }}" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>{{ comment.user }}</h3>
-                                <div class="meta">{{ comment.created_at }}</div>
-                                <p>{{ comment.content|linebreaks }}</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-                        </li>
-                        {% endfor %}
-
-<!--                        <li class="comment">-->
-<!--                            <div class="vcard">-->
-<!--                                <img src="{% static 'images/person_1.jpg' %}" alt="Image placeholder">-->
-<!--                            </div>-->
-<!--                            <div class="comment-body">-->
-<!--                                <h3>Jean Doe</h3>-->
-<!--                                <div class="meta">January 9, 2018 at 2:21pm</div>-->
-<!--                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum-->
-<!--                                    necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente-->
-<!--                                    iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>-->
-<!--                                <p><a href="#" class="reply">Reply</a></p>-->
-<!--                            </div>-->
-
-<!--                            <ul class="children">-->
-<!--                                <li class="comment">-->
-<!--                                    <div class="vcard">-->
-<!--                                        <img src="{% static 'images/person_1.jpg' %}" alt="Image placeholder">-->
-<!--                                    </div>-->
-<!--                                    <div class="comment-body">-->
-<!--                                        <h3>Jean Doe</h3>-->
-<!--                                        <div class="meta">January 9, 2018 at 2:21pm</div>-->
-<!--                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem-->
-<!--                                            laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe-->
-<!--                                            enim sapiente iste iure! Quam voluptas earum impedit necessitatibus,-->
-<!--                                            nihil?</p>-->
-<!--                                        <p><a href="#" class="reply">Reply</a></p>-->
-<!--                                    </div>-->
+                        {% recursetree comments %}
+                            {% with comment=node %}
+                            <li class="comment">
+                                <div class="vcard">
+                                    <img src="{{ comment.photo.url }}" alt="Image placeholder">
+                                </div>
 
 
-<!--                                    <ul class="children">-->
-<!--                                        <li class="comment">-->
-<!--                                            <div class="vcard">-->
-<!--                                                <img src="{% static 'images/person_1.jpg' %}" alt="Image placeholder">-->
-<!--                                            </div>-->
-<!--                                            <div class="comment-body">-->
-<!--                                                <h3>Jean Doe</h3>-->
-<!--                                                <div class="meta">January 9, 2018 at 2:21pm</div>-->
-<!--                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur-->
-<!--                                                    quidem laborum necessitatibus, ipsam impedit vitae autem, eum-->
-<!--                                                    officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum-->
-<!--                                                    impedit necessitatibus, nihil?</p>-->
-<!--                                                <p><a href="#" class="reply">Reply</a></p>-->
-<!--                                            </div>-->
+                                <div class="comment-body">
+                                    <h3>{{ comment.author }}</h3>
+                                    <div class="meta">{{ comment.created_at }}</div>
+                                    <p>{{ comment.content|linebreaks }}</p>
+                                    <p><a href="#" class="reply">Reply</a></p>
+                                </div>
+                                {% if not comment.is_leaf_node %}
+                                    <ul class="children">
+                                        {{ children }}
+                                    </ul>
+                                {% endif %}
+                            </li>
 
-<!--                                            <ul class="children">-->
-<!--                                                <li class="comment">-->
-<!--                                                    <div class="vcard">-->
-<!--                                                        <img src="{% static 'images/person_1.jpg' %}"-->
-<!--                                                             alt="Image placeholder">-->
-<!--                                                    </div>-->
-<!--                                                    <div class="comment-body">-->
-<!--                                                        <h3>Jean Doe</h3>-->
-<!--                                                        <div class="meta">January 9, 2018 at 2:21pm</div>-->
-<!--                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
-<!--                                                            Pariatur quidem laborum necessitatibus, ipsam impedit vitae-->
-<!--                                                            autem, eum officia, fugiat saepe enim sapiente iste iure!-->
-<!--                                                            Quam voluptas earum impedit necessitatibus, nihil?</p>-->
-<!--                                                        <p><a href="#" class="reply">Reply</a></p>-->
-<!--                                                    </div>-->
-<!--                                                </li>-->
-<!--                                            </ul>-->
-<!--                                        </li>-->
-<!--                                    </ul>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
 
-<!--                        <li class="comment">-->
-<!--                            <div class="vcard">-->
-<!--                                <img src="{% static 'images/person_1.jpg' %}" alt="Image placeholder">-->
-<!--                            </div>-->
-<!--                            <div class="comment-body">-->
-<!--                                <h3>Jean Doe</h3>-->
-<!--                                <div class="meta">January 9, 2018 at 2:21pm</div>-->
-<!--                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum-->
-<!--                                    necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente-->
-<!--                                    iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>-->
-<!--                                <p><a href="#" class="reply">Reply</a></p>-->
-<!--                            </div>-->
-<!--                        </li>-->
+                            {% endwith %}
+                        {% endrecursetree %}
+
                     </ul>
                     <!-- END comment-list -->
 

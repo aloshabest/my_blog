@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'core.apps.CoreConfig',
+    'mptt',
 ]
 
 MIDDLEWARE = [
