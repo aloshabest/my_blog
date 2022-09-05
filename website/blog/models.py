@@ -98,6 +98,9 @@ class Comment(MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     reply_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='replyers')
 
+    def get_absolute_url(self):
+        return reverse('blog:comment', kwargs={'comment_id': self.pk})
+
     class MPTTMeta:
         ordering = ['-created_at']
         verbose_name = 'Комментарий'

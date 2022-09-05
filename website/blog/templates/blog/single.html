@@ -34,6 +34,43 @@
                             href="#">#asia</a></p>
                 </div>
 
+
+
+
+
+<!--                <h2>Add a new comment</h2>-->
+<!--                <form action="." method="post">-->
+<!--                    {{ comment_form.as_p }}-->
+<!--                    {% csrf_token %}-->
+<!--                    <button type="submit">Add comment</button>-->
+<!--                </form>-->
+
+<!--                &lt;!&ndash; Comment with nested comments &ndash;&gt;-->
+<!--                {% for comment in comments %}-->
+<!--                <div class="comment" style="background-color: powderblue">-->
+<!--                    <p class="info">{{ comment.author }} | {{ comment.created_at }}</p>-->
+<!--                    {{ comment.content|linebreaks }}-->
+
+<!--                    {% for replay in comment.children.all %}-->
+<!--                        <p class="info">{{ replay.author }} | {{ replay.created_at }}</p>-->
+<!--                        <li>{{ replay.content }}</li>-->
+<!--                    {% endfor %}-->
+
+<!--                    <h5>Replay</h5>-->
+<!--                    <form action="." method="post">-->
+<!--                        {{ form.as_p }}-->
+<!--                        {% csrf_token %}-->
+<!--                        &lt;!&ndash; Hidden input for parent comment.id &ndash;&gt;-->
+<!--                        <input type="hidden" name="parent_id" value="{{ comment.id }}">-->
+<!--                        <input class="btn btn-primary" type="submit" value="Replay">-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                {% empty %}-->
+<!--                <h4>There are no comments yet.</h4>-->
+<!--                {% endfor %}-->
+
+
+
                 {% load mptt_tags %}
 
                 <div class="pt-5">
@@ -51,7 +88,38 @@
                                     <h3>{{ comment.author }}</h3>
                                     <div class="meta">{{ comment.created_at }}</div>
                                     <p>{{ comment.content|linebreaks }}</p>
-                                    <p><a href="#formReview" onclick="addReview('{{ comment.user }}', '{{ comment.id }}')" class="reply">Reply</a></p>
+
+                                    <form class="p-3 bg-light" action="." method="post">
+                                        {% csrf_token %}
+                                        {% for field in form %}
+                                        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+
+                                        <div class="col-md-12 form-group">
+                                            <label for="{{ field.id_for_label }}">
+                                                {{ field.label }}
+                                                {% if field.field.required %}
+                                                <span class="required text-danger">*</span>
+                                                {% endif %}
+                                            </label>
+                                            {{ field|addclass:'form-control' }}
+                                            {% if field.help_text %}
+                                            <small id="{{ field.id_for_label }}-help"
+                                                   class="form-text text-muted">
+                                                {{ field.help_text|safe }}
+                                            </small>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                        <input class="btn btn-primary" type="submit" value="Replay">
+                                    </form>
+
+
+
+
+
+
+
+
                                 </div>
                                 {% if not comment.is_leaf_node %}
                                     <ul class="children">
@@ -59,7 +127,6 @@
                                     </ul>
                                 {% endif %}
                             </li>
-
 
                             {% endwith %}
                         {% endrecursetree %}
@@ -73,9 +140,7 @@
                         <h3 class="mb-5">Leave a comment</h3>
                         <form class="p-5 bg-light" method="post" id="formReview">
                             {% csrf_token %}
-
-                            <input type="hidden" name="parent" id="parent_id" value="">
-
+                            <input type="hidden" name="parent" id="contactparent" value="">
                             {% for field in form %}
 
                             <div class="col-md-12 form-group">
@@ -109,12 +174,7 @@
                     </div>
 
                     {% endif %}
-                    <script>
-                        function addReview(name, id) {
-                            document.getElementById("parent_id").value = id;
-                            document.getElementById("parent_id").innerText = ${user},
-                        }
-                    </script>
+
                 </div>
 
 
@@ -284,4 +344,14 @@
 
 
 </section>
+<script type="text/javascript">
+function show_form()
+{
+var d = document;
+var a = d.getElementById('div_form').style.display;
+d.getElementById('div_form').style.display = (a == 'none')?'block':'none';
+d.getElementById('sp_sel').innerHTML = (a == 'none')?'Скрыть':'Раскрыть';
+}
+</script>
+
 {% endblock %}
