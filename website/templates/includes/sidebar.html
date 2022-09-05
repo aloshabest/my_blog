@@ -1,5 +1,6 @@
 {% load static %}
-
+{% load sidebar %}
+{% block content %}
 <div class="col-md-12 col-lg-4 sidebar">
     <div class="sidebar-box search-form-wrap">
         <form action="#" class="search-form">
@@ -14,7 +15,7 @@
         <div class="bio text-center">
             <img src="{% static 'images/person_1.jpg' %}" alt="Image Placeholder" class="img-fluid">
             <div class="bio-body">
-                <h2>Meagan Smith</h2>
+                <h2>{{ rand_author.title }}</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem facilis sunt
                     repellendus excepturi beatae porro debitis voluptate nulla quo veniam fuga sit molestias
                     minus.</p>
@@ -29,49 +30,9 @@
         </div>
     </div>
 
-    <div class="sidebar-box">
-        <h3 class="heading">Popular Posts</h3>
-        <div class="post-entry-sidebar">
-            <ul>
-                <li>
-                    <a href="">
-                        <img src="{% static 'images/img_2.jpg' %}" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                            <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                            <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span> &bullet;
-                                <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="{% static 'images/img_4.jpg' %}" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                            <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                            <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span> &bullet;
-                                <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="{% static 'images/img_12.jpg' %}" alt="Image placeholder" class="mr-4">
-                        <div class="text">
-                            <h4>There’s a Cool New Way for Men to Wear Socks and Sandals</h4>
-                            <div class="post-meta">
-                                <span class="mr-2">March 15, 2018 </span> &bullet;
-                                <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    {% get_popular 3 %}
+
+
 
     <div class="sidebar-box">
         <h3 class="heading">Categories</h3>
@@ -102,3 +63,4 @@
         </ul>
     </div>
 </div>
+{% endblock %}
