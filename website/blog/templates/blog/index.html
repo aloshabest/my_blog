@@ -9,7 +9,7 @@
             <div class="col-md-12">
 
                 <div class="owl-carousel owl-theme home-slider owl-loaded owl-drag">
-                    {% for post in posts %}
+                    {% for post, count in res %}
                     <div>
                         <a href="{{ post.get_absolute_url }}" class="a-block d-flex align-items-center height-lg"
                            style="background-image: url({{ post.photo.url }})">
@@ -17,7 +17,7 @@
                                 <div class="post-meta">
                                     <span class="category">{{ post.group }}</span>
                                     <span class="mr-2">{{ post.created_at|date:"d.m.Y" }} </span> &bullet;
-                                    <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                                    <span class="ml-2"><span class="fa fa-comments"></span> {{ count }}</span>
                                 </div>
                                 <h3>{{ post.title }}</h3>
                                 <p>{{ post.content|truncatewords_html:30|safe }}</p>
@@ -28,17 +28,17 @@
             </div>
         </div>
         <div class="row" style="margin-left: 0px;">
-            {% for i in random_lst %}
+            {% for post, count in random_res %}
             <div class="col-md-6 col-lg-4">
-                <a href="{{ i.get_absolute_url }}" class="a-block d-flex align-items-center height-md"
-                   style="width: 350px; background-image: url({{ i.photo.url }})">
+                <a href="{{ post.get_absolute_url }}" class="a-block d-flex align-items-center height-md"
+                   style="width: 350px; background-image: url({{ post.photo.url }})">
                     <div class="text">
                         <div class="post-meta">
-                            <span class="category">{{ i.group }}</span>
-                            <span class="mr-2">{{ i.created_at|date:"d.m.Y" }} </span> &bullet;
-                            <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                            <span class="category">{{ post.group }}</span>
+                            <span class="mr-2">{{ post.created_at|date:"d.m.Y" }} </span> &bullet;
+                            <span class="ml-2"><span class="fa fa-comments"></span> {{ count }}</span>
                         </div>
-                        <h3>{{ i.title|truncatewords_html:30|safe }}</h3>
+                        <h3>{{ post.title|truncatewords_html:30|safe }}</h3>
                     </div>
                 </a>
             </div>

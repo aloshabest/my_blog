@@ -1,0 +1,8 @@
+<div class="sidebar-box">
+    <h3 class="heading">Categories</h3>
+    <ul class="categories">
+        {% for category, count in res %}
+        <li><a href="{{ category.get_absolute_url }}">{{ category.title }} <span>{{ count }}</span></a></li>
+        {% endfor %}
+    </ul>
+</div>

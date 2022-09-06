@@ -6,31 +6,38 @@ from .forms import PostForm, CommentForm
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.text import slugify
-
+from django.db.models import F
 
 
 def index(request):
     template = 'blog/index.html'
     title = 'Funny Blog'
-    posts = Post.objects.order_by('created_at')
-    count = Post.objects.count()
 
+    # Показ постов и количества комментариев каждого поста
+    res = [(p, Comment.objects.filter(post=p).count()) for p in Post.objects.order_by('created_at')]
+
+    # Показ 3-х случайных постов и количества комментариев каждого поста
     random_lst = []
     while len(random_lst) <= 2:
-        r = Post.objects.all()[randint(0, count - 1)]
+        r = Post.objects.all()[randint(0, Post.objects.count() - 1)]
         if r not in random_lst:
             random_lst.append(r)
+    random_res = [(r, Comment.objects.filter(post=r).count()) for r in random_lst]
 
+    # Пагинация
     paginator = Paginator(Post.objects.all(), 8)
+    print(Post.objects.all())
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    print(page_obj)
 
     context = {
-        'posts': posts,
         'random_lst': random_lst,
         'title': title,
         'text': 'Главная страница',
         'page_obj': page_obj,
+        'res': res,
+        'random_res': random_res,
     }
     return render(request, template, context)
 
@@ -40,6 +47,10 @@ def show_post(request, post_slug):
     post = get_object_or_404(Post, slug=post_slug)
 
     comments = post.comments.filter(active=True)
+
+    post.views = F('views') + 1
+    post.save()
+    post.refresh_from_db()
 
     if request.method == "POST":
         author = get_object_or_404(Author, user_id=request.user.id)
