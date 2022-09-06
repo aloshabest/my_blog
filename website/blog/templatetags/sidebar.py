@@ -6,6 +6,7 @@ from django.db.models import Count
 
 register = template.Library()
 
+
 @register.inclusion_tag('blog/popular_posts_tpl.html')
 def get_popular(cnt=3):
     posts = Post.objects.order_by('-views')[:cnt]
@@ -23,3 +24,9 @@ def get_categories():
     categories = Group.objects.all()
     res = [(c, Post.objects.filter(group=c).count()) for c in categories]
     return {'res': res}
+
+
+@register.inclusion_tag('blog/latest_post_tpl.html')
+def get_latest(cnt=3):
+    posts = Post.objects.order_by('-created_at')[:cnt]
+    return {'posts': posts}
