@@ -16,6 +16,7 @@ urlpatterns = [
     path('authors/', authors, name='authors'),
     path('author/<slug:post_slug>/', show_authors, name='author'),
     path('my_posts/', my_posts, name='my_posts'),
+    path('search/', Search.as_view(), name='search'),
 
 
 ]
