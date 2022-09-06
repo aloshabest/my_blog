@@ -25,11 +25,9 @@ def index(request):
     random_res = [(r, Comment.objects.filter(post=r).count()) for r in random_lst]
 
     # Пагинация
-    paginator = Paginator(Post.objects.all(), 8)
-    print(Post.objects.all())
+    paginator = Paginator(tuple((p, Comment.objects.filter(post=p).count()) for p in Post.objects.all()), 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    print(page_obj)
 
     context = {
         'random_lst': random_lst,
@@ -45,6 +43,8 @@ def index(request):
 def show_post(request, post_slug):
     template = 'blog/single.html'
     post = get_object_or_404(Post, slug=post_slug)
+
+    created_by = get_object_or_404(Author, title=post.author)
 
     comments = post.comments.filter(active=True)
 
@@ -84,6 +84,7 @@ def show_post(request, post_slug):
         'title': post.title,
         'comments': comments,
         'form': form,
+        'created_by': created_by,
     })
 
 
