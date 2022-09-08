@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.core.paginator import Paginator
-from .models import Post, Group, Author, Comment
+from .models import Post, Group, Author, Comment, Follow
 from random import randint, choice
 from .forms import PostForm, CommentForm
 from django.views.generic import ListView
@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.text import slugify
 from django.db.models import F
 from django.views.decorators.cache import cache_page
+from django.contrib.auth.decorators import login_required
 
 
 @cache_page(6 * 3)
@@ -218,6 +219,28 @@ class Search(ListView):
         return context
 
 
+def follow_index(request):
+    # информация о текущем пользователе доступна в переменной request.user
+    # ...
+    return render(request, "follow.html", {...})
+
+
+@login_required
+def get_follow(request, username):
+    author = Author.objects.get(title=username)
+    user = request.user
+    if author != user:
+        Follow.objects.get_or_create(user=user, author=author)
+        # return redirect(
+        #     'profile',
+        #     username=username
+        # )
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def profile_unfollow(request, username):
+    # ...
+    pass
 
 
 

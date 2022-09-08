@@ -38,6 +38,7 @@ class Author(models.Model):
     description = models.CharField(max_length=2000, verbose_name='Обо мне')
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, verbose_name='Фото')
 
+
     def __str__(self):
         return self.title
 
@@ -107,5 +108,7 @@ class Comment(MPTTModel):
         verbose_name_plural = 'Комментарии'
 
 
-
+class Follow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='following')
 

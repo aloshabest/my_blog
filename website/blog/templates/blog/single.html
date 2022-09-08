@@ -11,13 +11,11 @@
         <div class="row blog-entries">
             <div class="col-md-12 col-lg-8 main-content">
                 <h1 class="mb-4">{{ post.title }}</h1>
-                <a href="#">
-                    <h2 class="mb-4">{{ post.author }}</h2>
-                </a>
+
                 <div class="post-meta">
                     <a href="{{ post.group.get_absolute_url }}"><span class="category">{{ post.group }}</span></a>
                     <span class="mr-2">{{ post.created_at|date:"d.m.Y" }} </span> &bullet;
-                    <span class="ml-2"><span class="fa fa-comments"></span> 3</span>  &bullet;
+                    <span class="ml-2"><span class="fa fa-comments"></span> {{ comments.count }}</span>  &bullet;
                     <span>Views: {{ post.views }}</span>
                 </div>
                 <div class="post-content-body">
@@ -29,6 +27,9 @@
                     </div>
                 </div>
 
+                {% if user.is_authenticated %}
+                <p class="category"><a href="{% url 'blog:get_follow' post.author %}" class="btn btn-primary btn-sm">Subscribe to {{ post.author }}</a></p>
+                {% endif %}
 
                 <div class="pt-5">
                     Tags: <a href="#">#manila</a>, <a

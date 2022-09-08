@@ -15,6 +15,7 @@ urlpatterns = [
     path('group/<slug:post_slug>/', show_groups, name='groups'),
     path('authors/', authors, name='authors'),
     path('author/<slug:post_slug>/', show_authors, name='author'),
+    path('author/<str:username>/follow/', get_follow, name='get_follow'),
     path('my_posts/', my_posts, name='my_posts'),
     path('search/', Search.as_view(), name='search'),
 

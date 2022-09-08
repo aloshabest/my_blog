@@ -42,4 +42,3 @@ def update_profile(request, post_slug):
 
 
 
-
