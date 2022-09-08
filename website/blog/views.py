@@ -7,8 +7,10 @@ from django.views.generic import ListView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.text import slugify
 from django.db.models import F
+from django.views.decorators.cache import cache_page
 
 
+@cache_page(6 * 3)
 def index(request):
     template = 'blog/index.html'
     title = 'Funny Blog'
