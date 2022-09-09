@@ -110,5 +110,7 @@ class Comment(MPTTModel):
 
 class Follow(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='following')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
 
+    def __str__(self):
+        return f"Последователь: '{self.user}', автор: '{self.author}'"

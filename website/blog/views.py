@@ -9,6 +9,10 @@ from django.utils.text import slugify
 from django.db.models import F
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 @cache_page(6 * 3)
@@ -219,29 +223,40 @@ class Search(ListView):
         return context
 
 
-def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
-    # ...
-    return render(request, "follow.html", {...})
+def subscriptions(request):
+    template = 'blog/subscriptions.html'
+
+    user = request.user
+    authors = user.follower.values_list('author', flat=True)
+    author = Author.objects.filter(user__id__in=authors)
+
+    paginator = Paginator(tuple((p, Comment.objects.filter(post=p).count()) for p in Post.objects.filter(author__id__in=authors).order_by('created_at')), 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'author': author,
+        'cat_selected': 1,
+        'page_obj': page_obj,
+    }
+    return render(request, template, context)
 
 
 @login_required
 def get_follow(request, username):
-    author = Author.objects.get(title=username)
+    author = User.objects.get(username=username)
     user = request.user
     if author != user:
         Follow.objects.get_or_create(user=user, author=author)
-        # return redirect(
-        #     'profile',
-        #     username=username
-        # )
+        return redirect('blog:subscriptions')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def profile_unfollow(request, username):
-    # ...
-    pass
-
+@login_required
+def get_unfollow(request, username):
+    user = request.user
+    Follow.objects.get(user=user, author__username=username).delete()
+    return redirect('blog:subscriptions')
 
 
 

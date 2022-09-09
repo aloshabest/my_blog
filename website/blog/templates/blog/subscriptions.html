@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="site-section">
+    <div class="container">
+
+        <div class="row blog-entries">
+            <div class="col-md-12 col-lg-8 main-content">
+
+                <div class="row mb-5 mt-5">
+                    <div class="col-md-12 mb-5">
+                        <h2>Your subscriptions</h2>
+                    </div>
+                    <div class="col-md-12">
+                        <h4>Authors</h4>
+                        {% for a in author %}
+                        <div class="post-entry-horzontal">
+                            <a href="{{ a.get_absolute_url }}">
+                                <div class="image element-animate" data-animate-effect="fadeIn"
+                                     style="background-image: url({{ a.photo.url }})">
+                                </div>
+                                <span class="text">
+                            <p>{{ a.description|truncatewords_html:30|safe }}</p>
+                        </span>
+                            <a href="{% url 'blog:get_unfollow' a.title %}"><span class="category">Отписаться</span></a>
+                        </div>
+                        {% endfor %}
+                        <h4 style="margin-top: 70px;">Posts</h4>
+                        {% for post, count in page_obj %}
+                        <div class="post-entry-horzontal">
+                            <a href="{{ post.get_absolute_url }}">
+                                <div class="image" style="background-image: url('{{ post.photo.url }}');">
+                                </div>
+                                <span class="text">
+                                    <div class="post-meta">
+                                        <span class="category">{{ post.author }}</span>
+                                        <span class="mr-2">{{ post.created_at|date:"d.m.Y" }} </span> &bullet;
+                                        <span class="ml-2"><span class="fa fa-comments"></span> {{ count }}</span>
+
+                                    </div>
+                                    <h2>{{ post.title }}</h2>
+                                </span>
+                            </a>
+
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                {% include 'includes/paginator.html' %}
+
+            </div>
+
+            <!-- END main-content -->
+
+            {% include 'includes/sidebar.html' %}
+            <!-- END sidebar -->
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
