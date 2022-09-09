@@ -35,6 +35,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "[::1]",
     "testserver",
+    "a883-193-232-173-109.eu.ngrok.io",
 ]
 
 
