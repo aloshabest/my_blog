@@ -20,7 +20,9 @@
                         {{ author.description }}
 
                     </div>
+                    {% if user.is_authenticated %}
                     <p class="category"><a href="{{ authors.get_absolute_url }}" class="btn btn-primary btn-sm">Subscribe to {{ author }}</a></p>
+                    {% endif %}
                 </div>
 
                 <div class="row mb-5 mt-5">
