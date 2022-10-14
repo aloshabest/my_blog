@@ -9,7 +9,7 @@
             <div class="col-md-12">
 
                 <div class="owl-carousel owl-theme home-slider owl-loaded owl-drag">
-                    {% for post, count in res %}
+                    {% for post, count in posts %}
                     <div>
                         <a href="{{ post.get_absolute_url }}" class="a-block d-flex align-items-center height-lg"
                            style="background-image: url({{ post.photo.url }})">
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="row" style="margin-left: 0px;">
-            {% for post, count in random_res %}
+            {% for post, count in random_posts %}
             <div class="col-md-6 col-lg-4">
                 <a href="{{ post.get_absolute_url }}" class="a-block d-flex align-items-center height-md"
                    style="width: 350px; background-image: url({{ post.photo.url }})">

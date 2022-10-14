@@ -24,7 +24,7 @@ class Group(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:groups', kwargs={"post_slug": self.slug})
+        return reverse('blog:groups', kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = 'Категория'
@@ -43,10 +43,10 @@ class Author(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:author', kwargs={"post_slug": self.slug})
+        return reverse('blog:author', kwargs={"slug": self.slug})
 
     def get_edit(self):
-        return reverse('users:auth/profile', kwargs={"post_slug": self.slug})
+        return reverse('users:auth/profile', kwargs={"slug": self.slug})
 
     class Meta:
         verbose_name = 'Автор'
@@ -81,7 +81,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post', kwargs={'post_slug': self.slug})
+        return reverse('blog:post', kwargs={'slug': self.slug})
 
     class Meta:
         ordering = ['-created_at']
