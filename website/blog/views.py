@@ -225,6 +225,7 @@ class Subscriptions(View):
 def get_follow(request, username):
     author = User.objects.get(username=username)
     user = request.user
+
     if author != user:
         Follow.objects.get_or_create(user=user, author=author)
         return redirect('blog:subscriptions')

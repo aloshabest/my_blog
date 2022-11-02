@@ -8,7 +8,7 @@
 
         <div class="row blog-entries">
             <div class="col-md-12 col-lg-8 main-content">
-
+s
                 <div class="row">
 
                     <div class="col-md-12" style="margin-bottom: 75px; text-align: center;">
@@ -21,7 +21,7 @@
 
                     </div>
                     {% if user.is_authenticated %}
-                    <p class="category"><a href="{{ authors.get_absolute_url }}" class="btn btn-primary btn-sm">Subscribe to {{ author }}</a></p>
+                    <p class="category"><a href="{% url 'blog:get_follow' author %}" class="btn btn-primary btn-sm">Subscribe to {{ author }}</a></p>
                     {% endif %}
                 </div>
 

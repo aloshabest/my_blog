@@ -73,9 +73,7 @@ class Post(models.Model):
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, verbose_name='Фото')
     views = models.IntegerField(default=0, verbose_name='Количество просмотров')
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Категория')
-    #comments = models.ForeignKey('Comment', on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Комментарии')
-    # category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='posts', verbose_name='Категория')
-    # tags = models.ManyToManyField(Tag, blank=True, related_name='posts')
+
 
     def __str__(self):
         return self.title

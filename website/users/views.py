@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
-from .form import CreationForm, ContactForm, ProfileForm
+from .forms import CreationForm, ContactForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 
