@@ -12,12 +12,22 @@
                 <div class="row">
 
                     <div class="col-md-12" style="margin-bottom: 75px; text-align: center;">
+                        {% if user.username != author.title %}
                         <h2 class="mb-4">Hi There! I'm {{ author.title }}</h2>
+                        {% else %}
+                        <h2 class="mb-4">Hi, {{ author.title }}, it's your profile</h2>
+                        {% endif %}
                         <p class="mb-5" style="text-align: center;">
                             <img src="{{ author.photo.url }}" alt="Image placeholder" class="img-fluid " style="max-height: 500px;">
                         </p>
+                        {% if user.username != author.title %}
                         <h4 class="mb-4">A few words about me:</h4>
                         {{ author.description }}
+                        {% else %}
+                        <h4 class="mb-4">Your description:</h4>
+                        {{ author.description }}
+                        {% endif %}
+
 
                     </div>
                     {% if user.is_authenticated %}
@@ -27,9 +37,20 @@
                     {% endif %}
                 </div>
 
+
                 <div class="row mb-5 mt-5">
+                    {% if user.username == author.title %}
                     <div class="col-md-12 mb-5">
+                        <h4>Number Of Your Posts: {{ count }}</h4>
+                    </div>
+                    {% endif %}
+                    <div class="col-md-12 mb-5">
+                        {% if user.username != author.title %}
                         <h2>My Latest Posts</h2>
+                        {% else %}
+                        <h2>Your Posts</h2>
+                        {% endif %}
+
                     </div>
                     <div class="col-md-12">
                         {% for i in page_obj %}

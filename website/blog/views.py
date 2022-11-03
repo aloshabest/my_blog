@@ -126,28 +126,14 @@ class SingleAuthor(ListView):
     allow_empty = False
 
     def get_queryset(self):
-        author = get_object_or_404(Author, slug=self.kwargs['slug'])
-        return Post.objects.filter(author=author.user)
+        self.author = get_object_or_404(Author, slug=self.kwargs['slug'])
+        return Post.objects.filter(author=self.author.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['author'] = Author.objects.get(slug=self.kwargs['slug'])
-        return context
-
-
-class MyPosts(ListView):
-    template_name = 'blog/about.html'
-    context_object_name = 'posts'
-    paginate_by = 5
-    allow_empty = False
-
-    def get_queryset(self):
-        author = get_object_or_404(Author, slug=self.request.user)
-        return Post.objects.filter(author=author.user)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['author'] = Author.objects.get(slug=self.request.user)
+        context['count'] = Post.objects.filter(author=self.author.user).count()
+        context['type'] = type
         return context
 
 

@@ -18,7 +18,6 @@ urlpatterns = [
     path('author/<slug:slug>/', SingleAuthor.as_view(), name='author'),
     path('author/<str:username>/follow/', get_follow, name='get_follow'),
     path('author/<str:username>/unfollow/', get_unfollow, name='get_unfollow'),
-    path('my_posts/', MyPosts.as_view(), name='my_posts'),
     path('search/', Search.as_view(), name='search'),
     path('subscriptions/', Subscriptions.as_view(), name='subscriptions'),
 
