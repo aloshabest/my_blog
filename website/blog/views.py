@@ -54,29 +54,7 @@ class ShowPost(View):
         post.save()
         post.refresh_from_db()
 
-        if request.method == "POST":
-            author = get_object_or_404(Author, user_id=request.user.id)
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                try:
-                    parent_id = int(request.POST.get('parent_id'))
-                except:
-                    parent_id = None
-                if parent_id:
-                    parent_obj = Comment.objects.get(id=parent_id)
-                    if parent_obj:
-                        replay_comment = form.save(commit=False)
-                        replay_comment.parent = parent_obj
-                        replay_comment.reply_to = parent_obj.author
-
-                comment = form.save(commit=False)
-                comment.post = post
-                comment.author = request.user
-                comment.photo = author.photo
-                comment.save()
-                return redirect(post.get_absolute_url())
-        else:
-            form = CommentForm()
+        form = CommentForm()
 
         return render(request, template, {
             'post': post,
@@ -85,6 +63,29 @@ class ShowPost(View):
             'form': form,
             'created_by': created_by,
         })
+
+    def post(self, request, slug, *args, **kwargs):
+        post = get_object_or_404(Post, slug=slug)
+        author = get_object_or_404(Author, user_id=request.user.id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            try:
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+            if parent_id:
+                parent_obj = Comment.objects.get(id=parent_id)
+                if parent_obj:
+                    replay_comment = form.save(commit=False)
+                    replay_comment.parent = parent_obj
+                    replay_comment.reply_to = parent_obj.author
+
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.photo = author.photo
+            comment.save()
+            return redirect(post.get_absolute_url())
 
 
 class ShowCategories(View):
@@ -127,7 +128,7 @@ class SingleAuthor(ListView):
 
     def get_queryset(self):
         self.author = get_object_or_404(Author, slug=self.kwargs['slug'])
-        return Post.objects.filter(author=self.author.user)
+        return [(r, Comment.objects.filter(post=r).count()) for r in Post.objects.filter(author=self.author.user)]
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

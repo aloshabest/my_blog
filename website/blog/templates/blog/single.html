@@ -55,26 +55,38 @@
                                     <div class="meta">{{ comment.created_at }}</div>
                                     <p>{{ comment.content|linebreaks }}</p>
                                     {% if user.is_authenticated %}
-                                    <form class="p-3 bg-light" action="." method="post">
-                                        {% csrf_token %}
-                                        {% for field in form %}
-                                        <input type="hidden" name="parent_id" value="{{ comment.id }}">
 
-                                        <div class="col-md-12 form-group">
-                                            <label for="{{ field.id_for_label }}">
-                                                Reply to a comment
-                                            </label>
-                                            <div style="height: 70px;">{{ field|addclass:'form-control' }}</div>
-                                            {% if field.help_text %}
-                                            <small id="{{ field.id_for_label }}-help"
-                                                   class="form-text text-muted">
-                                                {{ field.help_text|safe }}
-                                            </small>
-                                            {% endif %}
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">Reply</a>
+                                        <div class="dropdown-menu" style="width:750px;">
+                                            <form class="p-3 bg-light" action="." method="post">
+                                                {% csrf_token %}
+                                                {% for field in form %}
+                                                <input type="hidden" name="parent_id" value="{{ comment.id }}">
+
+                                                <div class="col-md-12 form-group">
+                                                    <label for="{{ field.id_for_label }}">
+                                                        Reply to a comment
+                                                    </label>
+                                                    <div style="height: 300px;">{{ field|addclass:'form-control' }}</div>
+                                                    {% if field.help_text %}
+                                                    <small id="{{ field.id_for_label }}-help"
+                                                           class="form-text text-muted">
+                                                        {{ field.help_text|safe }}
+                                                    </small>
+                                                    {% endif %}
+                                                </div>
+                                                {% endfor %}
+                                                <input class="btn btn-primary" type="submit" value="Replay"
+                                                       style="height: 37px;">
+                                            </form>
+
                                         </div>
-                                        {% endfor %}
-                                        <input class="btn btn-primary" type="submit" value="Replay" style="height: 37px;">
-                                    </form>
+
+                                    </вшм>
+
+
+
                                     {% endif %}
                                 </div>
                                 {% if not comment.is_leaf_node %}

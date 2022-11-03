@@ -53,18 +53,18 @@
 
                     </div>
                     <div class="col-md-12">
-                        {% for i in page_obj %}
+                        {% for post, c in posts %}
                         <div class="post-entry-horzontal">
-                            <a href="{{ i.get_absolute_url }}">
-                                <div class="image" style="background-image: url('{{ i.photo.url }}');">
+                            <a href="{{ post.get_absolute_url }}">
+                                <div class="image" style="background-image: url('{{ post.photo.url }}');">
                                 </div>
                                 <span class="text">
                                     <div class="post-meta">
-                                        <span class="category">{{ i.group }}</span>
-                                        <span class="mr-2">{{ i.created_at|date:"d.m.Y" }} </span> &bullet;
-                                        <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
+                                        <span class="category">{{ post.group }}</span>
+                                        <span class="mr-2">{{ post.created_at|date:"d.m.Y" }} </span> &bullet;
+                                        <span class="ml-2"><span class="fa fa-comments"></span> {{ c }}</span>
                                     </div>
-                                    <h2>{{ i.title }}</h2>
+                                    <h2>{{ post.title }}</h2>
                                 </span>
                             </a>
                         </div>
