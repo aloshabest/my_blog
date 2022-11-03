@@ -8,7 +8,7 @@
 
         <div class="row blog-entries">
             <div class="col-md-12 col-lg-8 main-content">
-                {% for a in authors %}
+                {% for a in page_obj %}
                 <div class="post-entry-horzontal">
                     <a href="{{ a.get_absolute_url }}">
                         <div class="image element-animate" data-animate-effect="fadeIn"

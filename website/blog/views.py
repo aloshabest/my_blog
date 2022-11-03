@@ -111,6 +111,9 @@ class Authors(ListView):
     context_object_name = 'authors'
     paginate_by = 5
 
+    def get_queryset(self):
+        return Author.objects.filter(number_of_posts__gt=0)
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -158,6 +161,11 @@ class NewPost(View):
                 post.slug = slugify(post)
                 post.author = request.user
                 post.save()
+
+                request.user.number_of_posts = F('number_of_posts') + 1
+                request.user.save()
+                request.user.refresh_from_db()
+
                 return HttpResponseRedirect(post.get_absolute_url())
         else:
             form = PostForm()

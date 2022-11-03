@@ -37,7 +37,7 @@ class Author(models.Model):
     slug = models.SlugField(max_length=255, verbose_name='Url', unique=True)
     description = models.CharField(max_length=2000, verbose_name='Обо мне')
     photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, verbose_name='Фото')
-
+    number_of_posts = models.IntegerField(default=0, verbose_name='Количество постов')
 
     def __str__(self):
         return self.title
