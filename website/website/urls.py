@@ -25,7 +25,8 @@ from api.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/postlist/', PostAPIList.as_view()),
-    #path('api/v1/postlist/<int:pk>/', PostAPIList.as_view()),
+    path('api/v1/postlist/<int:pk>/', PostAPIUpdate.as_view()),
+    path('api/v1/postdetail/<int:pk>/', PostAPIDetailView.as_view()),
     path('auth/', include('users.urls', namespace='users')),
     path('auth/', include('django.contrib.auth.urls')),
     path('', include('blog.urls', namespace='blog')),

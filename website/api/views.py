@@ -13,4 +13,17 @@ class PostAPIList(generics.ListCreateAPIView):
     serializer_class = PostSerializer
 
 
+@authentication_classes(())
+@permission_classes(())
+class PostAPIUpdate(generics.UpdateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+@authentication_classes(())
+@permission_classes(())
+class PostAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
 
