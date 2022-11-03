@@ -1,8 +1,8 @@
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from blog.models import Post
 
 
-class PostSerializer(serializers.ModelSerializer):
+class PostSerializer(ModelSerializer):
     class Meta:
         model = Post
-        fields = ('title', 'group_id')
+        fields = '__all__'
