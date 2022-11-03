@@ -19,14 +19,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
 from rest_framework.authtoken import views
-from api.views import *
+from api.views import PostViewSet
+from rest_framework.routers import DefaultRouter
+
+
+router = DefaultRouter()
+router.register('posts', PostViewSet)
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/postlist/', PostAPIList.as_view()),
-    path('api/v1/postlist/<int:pk>/', PostAPIUpdate.as_view()),
-    path('api/v1/postdetail/<int:pk>/', PostAPIDetailView.as_view()),
+    path('api/v1/', include(router.urls)),
     path('auth/', include('users.urls', namespace='users')),
     path('auth/', include('django.contrib.auth.urls')),
     path('', include('blog.urls', namespace='blog')),
