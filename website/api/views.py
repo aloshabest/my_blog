@@ -1,9 +1,10 @@
-from blog.models import Post
+from blog.models import Post, Group, Author, Comment
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from .serializers import PostSerializer
+from .serializers import PostSerializer, GroupSerializer, AuthorSerializer, CommentSerializer
 from rest_framework import viewsets
 from .permissions import IsAuthorOrReadOnly
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication, SessionAuthentication
+from django.shortcuts import get_object_or_404
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -14,4 +15,30 @@ class PostViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
 
 
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+
+
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+
+    def get_queryset(self):
+        return get_object_or_404(Post, pk=self.kwargs.get('post_id')).comments.all()
+
+    def perform_create(self, serializer):
+        get_object_or_404(Post, pk=self.kwargs.get('post_id'))
+        serializer.save(author=self.request.user)
 
