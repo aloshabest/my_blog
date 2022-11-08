@@ -1,5 +1,4 @@
 import pytest
-
 from blog.models import Group, Post
 
 
@@ -58,7 +57,7 @@ class TestGroupAPI:
             'Проверьте, что при POST запросе на `/api/v1/groups/` с не правильными данными возвращается статус 400'
         )
 
-        data = {'title': 'Группа  номер 3', 'slug': 'gr_test_3'}
+        data = {'title': 'Группа  номер test'}
         response = user_client.post('/api/v1/groups', data=data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе на `/api/v1/groups/` с правильными данными возвращается статус 201'

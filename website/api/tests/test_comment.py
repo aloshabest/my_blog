@@ -58,9 +58,7 @@ class TestCommentAPI:
     def test_comments_create(self, user_client, post, user, another_user):
         comments_count = Comment.objects.count()
 
-        data = {}
-
-        response = user_client.post(f'/api/v1/posts/{post.id}/comments/', data=data)
+        response = user_client.post(f'/api/v1/posts/50000/comments/')
 
         assert response.status_code == 404, (
             'Проверьте, что при POST запросе на `/api/v1/posts/{post.id}/comments/` '
