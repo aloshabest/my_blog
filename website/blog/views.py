@@ -134,7 +134,6 @@ class SingleAuthor(ListView):
         context = super().get_context_data(**kwargs)
         context['author'] = Author.objects.get(slug=self.kwargs['slug'])
         context['count'] = Post.objects.filter(author=self.author.user).count()
-        context['type'] = type
         return context
 
 

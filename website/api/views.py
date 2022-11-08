@@ -5,14 +5,19 @@ from rest_framework import viewsets
 from .permissions import IsAuthorOrReadOnly
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication, SessionAuthentication
 from django.shortcuts import get_object_or_404
+from rest_framework import generics, filters
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    #permission_classes = (IsAuthorOrReadOnly,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly,)
     authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', ]
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -32,7 +37,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthorOrReadOnly,)
     authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
 
     def get_queryset(self):

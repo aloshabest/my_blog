@@ -18,22 +18,11 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
-from api.views import PostViewSet, GroupViewSet, AuthorViewSet, CommentViewSet
-from rest_framework.routers import SimpleRouter
-
-
-router = SimpleRouter()
-router.register(r'posts', PostViewSet)
-router.register(r'groups', GroupViewSet)
-router.register(r'authors', AuthorViewSet)
-router.register(r'posts/(?P<post_id>[^/.]+)/comments', CommentViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    path('api/v1/drf-auth/', include('rest_framework.urls')),
-    path('api/v1/auth/', include('djoser.urls')),
+    path('api/', include('api.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('auth/', include('users.urls', namespace='users')),
     path('auth/', include('django.contrib.auth.urls')),
