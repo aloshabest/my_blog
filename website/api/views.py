@@ -12,7 +12,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (IsAuthorOrReadOnly,)
-    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+    #authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', ]
 
@@ -24,21 +24,21 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+    #authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+    #authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrReadOnly,)
-    authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
+    #authentication_classes = (SessionAuthentication, TokenAuthentication, BasicAuthentication)
 
     def get_queryset(self):
         return get_object_or_404(Post, pk=self.kwargs.get('post_id')).comments.all()

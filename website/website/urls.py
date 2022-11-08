@@ -23,7 +23,7 @@ import debug_toolbar
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken')),
+    #re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('auth/', include('users.urls', namespace='users')),
     path('auth/', include('django.contrib.auth.urls')),
     path('', include('blog.urls', namespace='blog')),

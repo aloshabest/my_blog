@@ -52,12 +52,12 @@ class TestPostAPI:
         assert 'created_at' in test_post, (
             'Проверьте, что добавили `pub_date` в список полей `fields` сериализатора модели Post'
         )
-        assert test_post['author'] == post.author.username, (
-            'Проверьте, что `author` сериализатора модели Post возвращает имя пользователя'
-        )
 
         assert test_post['id'] == post.id, (
             'Проверьте, что при GET запросе на `/api/v1/posts/` возвращается весь список статей'
+        )
+        assert test_post['author'] == post.author.id, (
+            'Проверьте, что `author` сериализатора модели Post возвращает имя пользователя'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -84,9 +84,6 @@ class TestPostAPI:
         assert type(test_data) == dict, msg_error
         assert test_data.get('title') == data['title'], msg_error
 
-        assert test_data.get('author') == user.username, (
-            'Проверьте, что при POST запросе на `/api/v1/posts/` создается статья от авторизованного пользователя'
-        )
         assert post_count + 1 == Post.objects.count(), (
             'Проверьте, что при POST запросе на `/api/v1/posts/` создается статья'
         )
@@ -104,7 +101,7 @@ class TestPostAPI:
             'Проверьте, что при GET запросе `/api/v1/posts/{id}/` возвращаете данные сериализатора, '
             'не найдено или не правильное значение `title`'
         )
-        assert test_data.get('author') == user.username, (
+        assert test_data.get('author') == user.id, (
             'Проверьте, что при GET запросе `/api/v1/posts/{id}/` возвращаете данные сериализатора, '
             'не найдено или не правильное значение `author`, должно возвращать имя пользователя '
         )

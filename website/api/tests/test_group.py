@@ -38,13 +38,13 @@ class TestGroupAPI:
         )
 
         groups_cnt = Group.objects.count()
-        test_group = test_data[0]
+        test_group = test_data['results'][0]
 
         assert 'title' in test_group, (
             'Проверьте, что добавили `title` в список полей `fields` сериализатора модели Group'
         )
 
-        assert len(test_data) == groups_cnt, (
+        assert test_data['count'] == groups_cnt, (
             'Проверьте, что при GET запросе на `/api/v1/groups/` возвращается весь список групп'
         )
 
@@ -58,7 +58,7 @@ class TestGroupAPI:
             'Проверьте, что при POST запросе на `/api/v1/groups/` с не правильными данными возвращается статус 400'
         )
 
-        data = {'title': 'Группа  номер 3'}
+        data = {'title': 'Группа  номер 3', 'slug': 'gr_test_3'}
         response = user_client.post('/api/v1/groups', data=data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе на `/api/v1/groups/` с правильными данными возвращается статус 201'

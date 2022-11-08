@@ -11,7 +11,7 @@ router.register(r'posts/(?P<post_id>[^/.]+)/comments', CommentViewSet)
 
 
 urlpatterns = [
-    path('v1/drf-auth/', include('rest_framework.urls')),
-    path('v1/auth/', include('djoser.urls')),
+    # path('v1/drf-auth/', include('rest_framework.urls')),
+    # path('v1/auth/', include('djoser.urls')),
     path('v1/', include(router.urls)),
 ]
