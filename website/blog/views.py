@@ -25,7 +25,7 @@ class Index(View):
         posts = [(p, Comment.objects.filter(post=p).count()) for p in Post.objects.order_by('created_at')]
 
         # Показ 3-х случайных постов и количества комментариев каждого поста
-        random_posts = [(r, Comment.objects.filter(post=r).count()) for r in sample(list(Post.objects.all()), 3)]
+        random_posts = [(r, Comment.objects.filter(post=r).count()) for r in sample(list(Post.objects.all()), min(3, len(list(Post.objects.all()))))]
 
         # Пагинация
         paginator = Paginator(tuple((p, Comment.objects.filter(post=p).count()) for p in Post.objects.all()), 8)

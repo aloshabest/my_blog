@@ -1,17 +1,5 @@
 import pytest
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.test import APIClient
-from django.contrib.auth.models import User
 
-
-@pytest.fixture
-def api_client():
-    user = User.objects.create_user(username='elonmask', email='e@m.ru', password='123456fktrctq')
-    client = APIClient()
-    refresh = RefreshToken.for_user(user)
-    client.credentials(HTTP_AUTHORIZATION=f'Token {refresh.access_token}')
-
-    return client
 
 @pytest.fixture
 def group_1():
