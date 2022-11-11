@@ -5,7 +5,7 @@ from blog.models import Group, Post, Comment, Follow, Author
 class TestPost:
 
     @pytest.mark.django_db(transaction=True)
-    def test_index(self, client, post, user):
+    def test_index(self, client):
         response = client.get('')
         assert response.status_code != 404, (
             'Страница `` не найдена, проверьте этот адрес в *urls.py*'
@@ -22,7 +22,7 @@ class TestPost:
         )
 
         assert response.status_code == 200, (
-            'Страница `post/slug/` не найдена, проверьте этот адрес в *urls.py*'
+            f'Страница `post/{post.slug}/` не найдена, проверьте этот адрес в *urls.py*'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -30,7 +30,7 @@ class TestPost:
         response = client.get(f'/category/{post.group.slug}/')
 
         assert response.status_code == 200, (
-            'Страница `/category/slug/` не найдена, проверьте этот адрес в *urls.py*'
+            f'Страница `/category/{post.group.slug}/` не найдена, проверьте этот адрес в *urls.py*'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -42,11 +42,11 @@ class TestPost:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_single_authors(self, client, post):
-        response = client.get(f'/authors/{post.author.username}/')
+    def test_single_authors(self, client, user):
+        response = client.get(f'/author/{user.username}/')
 
         assert response.status_code == 200, (
-            'Страница `/authors/author/` не найдена, проверьте этот адрес в *urls.py*'
+            f'Страница `/author/{user.username}/` не найдена, проверьте этот адрес в *urls.py*'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -77,18 +77,17 @@ class TestPost:
         data = {}
         response = client.post(f'/post/{post.slug}/edit/', data=data)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе на `/post/slug/edit/` с не правильными данными возвращается статус 400'
+            f'Проверьте, что при POST запросе на `/post/{post.slug}/edit/` с не правильными данными возвращается статус 400'
         )
 
-        data = {'author': user, 'title': 'Статья номер 3', 'slug': 'stat3test', 'photo': 'photo/2022/11/03/07-4.jpg',
-                'group': 1}
+        data = {'title': 'Статья номер 3_edit'}
         response = client.post(f'/post/{post.slug}/edit/', data=data)
         assert response.status_code == 201, (
-            'Проверьте, что при POST запросе на `/post/slug/edit/` с правильными данными возвращается статус 201'
+            f'Проверьте, что при POST запросе на `/post/{post.slug}/edit/` с правильными данными возвращается статус 201'
         )
 
         assert post_count == Post.objects.count(), (
-            'Проверьте, что при POST запросе на `/post/slug/edit/` не создается новая статья, а меняется текущая'
+           f'Проверьте, что при POST запросе на `/post/{post.slug}/edit/` не создается новая статья, а меняется текущая'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -98,14 +97,14 @@ class TestPost:
             response = client.get(f'/search/?s={item}/')
 
             assert response.status_code == 200, (
-                'Страница `/search/` не найдена, проверьте этот адрес в *urls.py*'
+                f'Страница `/search/?s={item}` не найдена, проверьте этот адрес в *urls.py*'
             )
 
     @pytest.mark.django_db(transaction=True)
     def test_subscriptions(self, client, user, user_2):
         count = Follow.objects.count()
 
-        client.post('/auth/login/', {'username': 'TestUser', 'password': '123456qwerty'})
+        client.post('/auth/login/', {'username': 'testuser_1', 'password': '123456qwerty'})
 
         response = client.get('/subscriptions/')
 
@@ -113,34 +112,19 @@ class TestPost:
             'Страница `/subscriptions/` не найдена, проверьте этот адрес в *urls.py*'
         )
 
-
-        data = {'user': user, 'author': user}
-        response = client.post(f'author/{user}/follow/', data=data)
+        response = client.get(f'author/{user}/follow/')
 
         assert count == Follow.objects.count(), (
-            'Проверьте, что при POST запросе на `author/user/follow/` с подпиской автора на самого себя, количество записей в модель не меняется'
+            f'Проверьте, что при POST запросе на `author/{user}/follow/` с подпиской автора на самого себя, количество записей в модель не меняется'
         )
 
-        assert response.status_code == 200, (
-            'Страница `/subscriptions/` не найдена, проверьте этот адрес в *urls.py*'
-        )
-
-        data = {'user': user, 'author': user_2}
-        response = client.post(f'author/{user}/follow/', data=data)
+        response = client.get(f'author/{user_2}/follow/')
         assert response.status_code == 201, (
-            'Проверьте, что при POST запросе на `author/user/follow/` с правильными данными возвращается статус 201'
-        )
-
-        count = Follow.objects.count()
-
-        data = {'user': user, 'author': user_2}
-        response = client.post(f'author/{user}/unfollow/', data=data)
-        assert response.status_code == 201, (
-            'Проверьте, что при POST запросе на `author/user/unfollow/` с правильными данными возвращается статус 201'
+            f'Проверьте, что при POST запросе на `author/{user_2}/follow/` с правильными данными возвращается статус 201'
         )
 
         assert count - 1 == Follow.objects.count(), (
-            'Проверьте, что при POST запросе на `author/user/follow/` подписка удаляется'
+            f'Проверьте, что при POST запросе на `author/{user_2}/follow/` подписка удаляется'
         )
 
 
