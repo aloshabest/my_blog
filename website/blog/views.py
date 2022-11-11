@@ -124,7 +124,6 @@ class SingleAuthor(ListView):
     template_name = 'blog/about.html'
     context_object_name = 'posts'
     paginate_by = 5
-    allow_empty = False
 
     def get_queryset(self):
         self.author = get_object_or_404(Author, slug=self.kwargs['slug'])
@@ -138,47 +137,47 @@ class SingleAuthor(ListView):
 
 
 class NewPost(View):
-
-    def get(self, request, *args, **kwargs):
-        if request.method == "POST":
-            form = PostForm(request.POST, request.FILES)
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.slug = slugify(post)
-                post.author = request.user
-                post.save()
-
-                request.user.number_of_posts = F('number_of_posts') + 1
-                request.user.save()
-                request.user.refresh_from_db()
-
-                return HttpResponseRedirect(post.get_absolute_url())
-        else:
-            form = PostForm()
+    def get(selfself, request, *args, **kwargs):
+        form = PostForm()
         return render(request, 'blog/create_post.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.slug = slugify(post)
+            post.author = request.user
+            post.save()
+
+            request.user.number_of_posts = F('number_of_posts') + 1
+            request.user.save()
+            request.user.refresh_from_db()
+
+            return HttpResponseRedirect(post.get_absolute_url())
 
 
 class EditPost(View):
-
-    def get(self, request, slug, *args, **kwargs):
+    def get(selfself, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
         is_edit = True
-        if request.method == "POST":
-            form = PostForm(request.POST, request.FILES, instance=post)
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.author = request.user
-                post.slug = slugify(str(post))
-                post.is_edit = is_edit
-                post.save()
-                return HttpResponseRedirect(post.get_absolute_url())
-        else:
-            form = PostForm(instance=post)
-            context = {
-                'form': form,
-                'is_edit': is_edit,
-            }
+        form = PostForm(instance=post)
+        context = {
+            'form': form,
+            'is_edit': is_edit,
+        }
+
         return render(request, 'blog/create_post.html', context)
+
+    def post(self, request, slug, *args, **kwargs):
+        post = get_object_or_404(Post, slug=slug)
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.slug = slugify(str(post))
+            post.save()
+            return HttpResponseRedirect(post.get_absolute_url())
 
 
 class Search(ListView):

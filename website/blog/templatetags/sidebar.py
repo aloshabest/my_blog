@@ -15,7 +15,10 @@ def get_popular(cnt=3):
 
 @register.inclusion_tag('blog/author_bio_tpl.html')
 def get_bio():
-    authors = random.choice(Author.objects.filter(number_of_posts__gt=0))
+    if Author.objects.filter(number_of_posts__gt=0).count() != 0:
+        authors = random.choice(Author.objects.filter(number_of_posts__gt=0))
+    else:
+        authors = ''
     return {'authors': authors}
 
 
