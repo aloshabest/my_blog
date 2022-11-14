@@ -71,10 +71,9 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Автор')
     content = models.TextField(blank=True, verbose_name='Текст')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
-    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, verbose_name='Фото')
+    photo = models.ImageField(upload_to='photo/%Y/%m/%d/', blank=True, null=True, verbose_name='Фото')
     views = models.IntegerField(default=0, verbose_name='Количество просмотров')
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Категория')
-
 
     def __str__(self):
         return self.title

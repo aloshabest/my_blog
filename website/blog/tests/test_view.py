@@ -1,5 +1,6 @@
 import pytest
 from blog.models import Group, Post, Comment, Follow, Author
+from django.urls import reverse
 
 
 class TestPost:
@@ -51,16 +52,10 @@ class TestPost:
 
     @pytest.mark.django_db(transaction=True)
     def test_new_post(self, client, user):
-
+        client.post('/auth/login/', {'username': 'testuser_1', 'password': '123456qwerty'})
         post_count = Post.objects.count()
 
-        data = {}
-        response = client.post('/post/new/', data=data)
-        assert response.status_code == 400, (
-            'Проверьте, что при POST запросе на `/post/new/` с не правильными данными возвращается статус 400'
-        )
-
-        data = {'author': user, 'title': 'Статья номер 3', 'slug': 'stat3test', 'photo': 'photo/2022/11/03/07-4.jpg', 'group': 1}
+        data = {'title': 'Статья номер 3', 'photo': 'photo/2022/11/03/07-4.jpg', 'group': 1}
         response = client.post('/post/new/', data=data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе на `/post/new/` с правильными данными возвращается статус 201'
@@ -72,18 +67,14 @@ class TestPost:
 
     @pytest.mark.django_db(transaction=True)
     def test_edit(self, client, user, post):
+        client.post('/auth/login/', {'username': 'testuser_1', 'password': '123456qwerty'})
         post_count = Post.objects.count()
-
-        data = {}
-        response = client.post(f'/post/{post.slug}/edit/', data=data)
-        assert response.status_code == 400, (
-            f'Проверьте, что при POST запросе на `/post/{post.slug}/edit/` с не правильными данными возвращается статус 400'
-        )
 
         data = {'title': 'Статья номер 3_edit'}
         response = client.post(f'/post/{post.slug}/edit/', data=data)
-        assert response.status_code == 201, (
-            f'Проверьте, что при POST запросе на `/post/{post.slug}/edit/` с правильными данными возвращается статус 201'
+        assert response.status_code == 302
+        assert response['Location'] == reverse('blog:post'), (
+            f'Проверьте, что при POST запросе на `/post/{post.slug}/edit/` с правильными данными идет перенаправление на страницу поста'
         )
 
         assert post_count == Post.objects.count(), (
@@ -119,8 +110,9 @@ class TestPost:
         )
 
         response = client.get(f'author/{user_2}/follow/')
-        assert response.status_code == 201, (
-            f'Проверьте, что при POST запросе на `author/{user_2}/follow/` с правильными данными возвращается статус 201'
+        assert response.status_code == 302
+        assert response['Location'] == reverse('blog:subscriptions'), (
+            f'Проверьте, что при POST запросе на `author/{user_2}/follow/` с правильными данными идет перенаправление на страниц с подписками'
         )
 
         assert count - 1 == Follow.objects.count(), (
