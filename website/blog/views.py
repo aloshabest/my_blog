@@ -155,7 +155,8 @@ class NewPost(View):
             request.user.refresh_from_db()
 
             return HttpResponseRedirect(post.get_absolute_url())
-
+        else:
+            return render(request, 'blog/create_post.html', {'form': form})
 
 class EditPost(View):
     def get(selfself, request, slug, *args, **kwargs):
@@ -178,7 +179,8 @@ class EditPost(View):
             post.slug = slugify(str(post))
             post.save()
             return HttpResponseRedirect(post.get_absolute_url())
-
+        else:
+            return render(request, 'blog/create_post.html', {'form': form})
 
 class Search(ListView):
     template_name = 'blog/search.html'

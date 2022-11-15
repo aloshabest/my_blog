@@ -18,7 +18,7 @@ def post(user, group_1):
 
 @pytest.fixture
 def post_2(user, group_1):
-    return Post.objects.create(title='Тестовый пост 12342341', content='testing', slug='test_test_2', author=user, group=group_1, photo='photo/2022/11/03/07-4.jpg')
+    return Post.objects.create(title='Тестовый пост 12342341', content='testing', slug='test_test_2', author=user, group=group_1, photo='photo/2022/11/03/07-4.jpg', views=5)
 
 
 @pytest.fixture

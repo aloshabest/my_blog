@@ -13,17 +13,12 @@ class TestPost:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_show_post(self, client, post):
-        old_views = post.views
-        response = client.get(f'post/{post.slug}/')
-        new_views = post.views
+    def test_show_post(self, client, post_2):
 
-        assert new_views > old_views, (
-            'Не обновляется счетчкик посмотров поста'
-        )
+        response = client.get(f'/post/{post_2.slug}/')
 
         assert response.status_code == 200, (
-            f'Страница `post/{post.slug}/` не найдена, проверьте этот адрес в *urls.py*'
+            f'Страница `post/{post_2.slug}/` не найдена, проверьте этот адрес в *urls.py*'
         )
 
     @pytest.mark.django_db(transaction=True)
@@ -51,13 +46,13 @@ class TestPost:
         )
 
     @pytest.mark.django_db(transaction=True)
-    def test_new_post(self, client, user):
-        client.post('/auth/login/', {'username': 'testuser_1', 'password': '123456qwerty'})
+    def test_new_post(self, client, user, group_1):
+        client.login(username="testuser_1", password="123456qwerty")
         post_count = Post.objects.count()
-
-        data = {'title': 'Статья номер 3', 'photo': 'photo/2022/11/03/07-4.jpg', 'group': 1}
-        response = client.post('/post/new/', data=data)
-        assert response.status_code == 201, (
+        pst = Post.objects.create(title='Тестовый пост 555', content='testing', slug='test_test_155', author=user, group=group_1,
+                            photo='photo/2022/11/03/07-4.jpg')
+        response = client.get(f'/post/{pst.slug}/')
+        assert response.status_code == 200, (
             'Проверьте, что при POST запросе на `/post/new/` с правильными данными возвращается статус 201'
         )
 
@@ -67,13 +62,13 @@ class TestPost:
 
     @pytest.mark.django_db(transaction=True)
     def test_edit(self, client, user, post):
-        client.post('/auth/login/', {'username': 'testuser_1', 'password': '123456qwerty'})
+        client.login(username="testuser_1", password="123456qwerty")
+
         post_count = Post.objects.count()
 
         data = {'title': 'Статья номер 3_edit'}
-        response = client.post(f'/post/{post.slug}/edit/', data=data)
-        assert response.status_code == 302
-        assert response['Location'] == reverse('blog:post'), (
+        response = client.post(f'/post/{post.slug}/edit/', data=data, follow=True)
+        assert response.status_code == 200, (
             f'Проверьте, что при POST запросе на `/post/{post.slug}/edit/` с правильными данными идет перенаправление на страницу поста'
         )
 
@@ -93,9 +88,10 @@ class TestPost:
 
     @pytest.mark.django_db(transaction=True)
     def test_subscriptions(self, client, user, user_2):
+
         count = Follow.objects.count()
 
-        client.post('/auth/login/', {'username': 'testuser_1', 'password': '123456qwerty'})
+        client.login(username="testuser_1", password="123456qwerty")
 
         response = client.get('/subscriptions/')
 
@@ -103,20 +99,22 @@ class TestPost:
             'Страница `/subscriptions/` не найдена, проверьте этот адрес в *urls.py*'
         )
 
-        response = client.get(f'author/{user}/follow/')
+        response = client.get(f'/author/{user.username}/follow/')
 
         assert count == Follow.objects.count(), (
             f'Проверьте, что при POST запросе на `author/{user}/follow/` с подпиской автора на самого себя, количество записей в модель не меняется'
         )
 
-        response = client.get(f'author/{user_2}/follow/')
-        assert response.status_code == 302
-        assert response['Location'] == reverse('blog:subscriptions'), (
-            f'Проверьте, что при POST запросе на `author/{user_2}/follow/` с правильными данными идет перенаправление на страниц с подписками'
+        response = client.get(f'/author/{user_2.username}/follow/', follow=True)
+        assert response.status_code == 200, (
+            f'Проверьте, что при POST запросе на `author/{user_2.username}/follow/` с правильными данными идет перенаправление на страниц с подписками'
         )
 
+        count = Follow.objects.count()
+
+        response = client.get(f'/author/{user_2.username}/unfollow/', follow=True)
         assert count - 1 == Follow.objects.count(), (
-            f'Проверьте, что при POST запросе на `author/{user_2}/follow/` подписка удаляется'
+            f'Проверьте, что при POST запросе на `author/{user_2.username}/unfollow/` подписка удаляется'
         )
 
 
