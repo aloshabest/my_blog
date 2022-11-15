@@ -86,6 +86,8 @@ class ShowPost(View):
             comment.photo = author.photo
             comment.save()
             return redirect(post.get_absolute_url())
+        else:
+            return render(request, 'blog/single.html', {'form': form})
 
 
 class ShowCategories(View):

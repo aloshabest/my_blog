@@ -22,6 +22,23 @@ class TestPost:
         )
 
     @pytest.mark.django_db(transaction=True)
+    def test_show_post_comment(self, client, post_2, user):
+        client.login(username="testuser_1", password="123456qwerty")
+        comment_count = Comment.objects.count()
+
+        data = {'content': 'test comment 1'}
+        client.post(f'/post/{post_2.slug}/', data=data)
+
+        response = client.get(f'/post/{post_2.slug}/')
+        assert response.status_code == 200, (
+            f'Страница `post/{post_2.slug}/` не найдена, проверьте этот адрес в *urls.py*'
+        )
+
+        assert comment_count < Comment.objects.count(), (
+            f'В базу данных не добавился новый комментарий'
+        )
+
+    @pytest.mark.django_db(transaction=True)
     def test_show_categories(self, client, post):
         response = client.get(f'/category/{post.group.slug}/')
 
