@@ -1,6 +1,5 @@
 import pytest
 from blog.models import Group, Post, Comment, Follow, Author
-from django.urls import reverse
 
 
 class TestPost:
