@@ -1,6 +1,9 @@
-FROM python:3.8.5
+FROM python:3.9
 RUN mkdir /code
+RUN apt-get update -y
+RUN apt-get upgrade -y
 COPY requirements.txt /code
+RUN pip install --upgrade pip
 RUN pip install -r /code/requirements.txt
 COPY . /code
 WORKDIR /code
